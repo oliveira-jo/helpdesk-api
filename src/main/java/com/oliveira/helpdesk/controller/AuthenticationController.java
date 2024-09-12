@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class AuthenticationController {
 
   private final AuthenticationManager authManager;
 
-  @Operation(description = "This method get a bearer token to be used in the system.")
+  @Operation(description = "This method get a bearer token to be used in the system.", method = "POST")
   @PostMapping(value = "/login")
   public ResponseEntity<AuthResponseDto> doLogin(@RequestBody @Valid LoginRequestDto request) {
 
@@ -51,7 +52,7 @@ public class AuthenticationController {
   }
 
   @Operation(description = "This method return the user logged in the system.")
-  @PostMapping(value = "/me")
+  @GetMapping
   public ResponseEntity<CustomUserDetails> getUserLogged(Authentication authentication) {
 
     CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();

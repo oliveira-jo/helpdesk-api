@@ -79,7 +79,6 @@ public class UserService {
         .orElseThrow(() -> new BusinessException("User not found in the system with this id"));
 
     if (userAuthenticated.getRole().equals(UserRole.ADMIN)
-        || userAuthenticated.getRole().equals(UserRole.SUPPORT_ATTENDANT)
         || userAuthenticated.equals(entity)) {
 
       if (!data.name().isEmpty())
@@ -152,7 +151,6 @@ public class UserService {
     }
 
     if (userAuthenticated.getRole().equals(UserRole.ADMIN)
-        || userAuthenticated.getRole().equals(UserRole.SUPPORT_ATTENDANT)
         || userAuthenticated.equals(deleteUser)) {
 
       this.userRepository.delete(deleteUser);

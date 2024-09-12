@@ -238,35 +238,36 @@ public class TicketService {
   // ** REFACTOR **
   public Ticket updateTicket(UUID id, CreateTicketDto data, Authentication authentication) {
 
-    UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
-    if (user == null) {
+    UserEntity userLooged = userRepository.findByUsername(authentication.getName()).orElse(null);
+    if (userLooged == null) {
       throw new BusinessException("User not found with provided id OR Unaunthorized");
     }
 
-    TicketEntity entity = ticketRepository.findById(id).orElse(null);
-    if (entity == null) {
+    TicketEntity ticketEntity = ticketRepository.findById(id).orElse(null);
+    if (ticketEntity == null) {
       throw new BusinessException("Ticket not found with provided id");
     }
 
-    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)
-        || user.equals(entity.getCreatedBy())) {
+    if (userLooged.getRole().equals(UserRole.ADMIN) || userLooged.getRole().equals(UserRole.SUPPORT_ATTENDANT)
+        || userLooged.equals(ticketEntity.getCreatedBy())) {
 
       // UPDATE
       if (!data.subject().isEmpty()) {
-        entity.setSubject(data.subject());
+        ticketEntity.setSubject(data.subject());
       }
       if (!data.description().isEmpty()) {
-        entity.setSubject(data.description());
+        ticketEntity.setSubject(data.description());
       }
 
       // AND ARRAY OF ATTCHMENTS ?
+      // ******************************************************************************************
 
       // UPDATE TICKET ENTITY
-      this.ticketRepository.save(entity);
-      return mapper.toDomain(entity);
+      this.ticketRepository.save(ticketEntity);
+      return mapper.toDomain(ticketEntity);
 
     } else {
-      throw new BusinessException("Ticket Interaction Access UNAUNTHORIZED");
+      throw new BusinessException("Ticket update Access UNAUNTHORIZED");
     }
 
   }

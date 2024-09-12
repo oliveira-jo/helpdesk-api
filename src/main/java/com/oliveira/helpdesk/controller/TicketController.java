@@ -48,8 +48,8 @@ public class TicketController {
   }
 
   @Operation(description = "This method UPDATE a support ticket in the system", method = "UPDATE")
-  @PutMapping(value = "/id")
-  public ResponseEntity<TicketDto> update(@PathVariable UUID id, @RequestBody CreateTicketDto request,
+  @PutMapping(value = "/{id}")
+  public ResponseEntity<TicketDto> update(@PathVariable(name = "id") UUID id, @RequestBody CreateTicketDto request,
       Authentication authentication) {
 
     TicketDto ticketDto = mapper.toDto(this.ticketService.updateTicket(id, request, authentication));
@@ -58,8 +58,8 @@ public class TicketController {
   }
 
   @Operation(description = "This method DELETE a support ticket in the system", method = "DELETE")
-  @DeleteMapping(value = "/id")
-  public ResponseEntity<TicketDto> deleteTichet(@PathVariable UUID id, Authentication authentication) {
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<TicketDto> deleteTichet(@PathVariable(name = "id") UUID id, Authentication authentication) {
 
     this.ticketService.delete(id, authentication);
     return ResponseEntity.ok().build();

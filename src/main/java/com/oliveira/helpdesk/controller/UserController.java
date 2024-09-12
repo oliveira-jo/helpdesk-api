@@ -18,7 +18,6 @@ import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
-import com.oliveira.helpdesk.entity.UserEntity;
 import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.service.UserService;
 
@@ -58,7 +57,7 @@ public class UserController {
 
   @Operation(description = "This method UPDATE a user by id in the system.", method = "PUT")
   @PutMapping(value = "/{id}")
-  public ResponseEntity<UserDto> update(@PathVariable UUID id, @RequestBody UpdateUserDto request,
+  public ResponseEntity<UserDto> update(@PathVariable(name = "id") UUID id, @RequestBody UpdateUserDto request,
       Authentication authentication) {
 
     UserDto user = mapper.toDto(this.userService.update(id, request, authentication));
@@ -68,7 +67,7 @@ public class UserController {
 
   @Operation(description = "This method FIND a user by id in the system", method = "GET")
   @GetMapping(value = "/{id}")
-  public ResponseEntity<UserDto> findById(@PathVariable("{id}") UUID id) {
+  public ResponseEntity<UserDto> findById(@PathVariable(name = "id") UUID id) {
 
     UserDto user = mapper.toDto(userService.findById(id));
     return ResponseEntity.ok().body(user);
@@ -76,7 +75,7 @@ public class UserController {
   }
 
   @Operation(description = "[PRIVATE] This method FIND all user of system", method = "GET")
-  @GetMapping(value = "/GetAllUsers")
+  @GetMapping(value = "/GetUsers")
   public ResponseEntity<List<UserDto>> findAllUsers(Authentication authentication) {
 
     List<UserDto> users = userService.findAllUsers(authentication);
