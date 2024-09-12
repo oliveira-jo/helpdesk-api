@@ -5,9 +5,11 @@ import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +37,7 @@ public class TicketController {
 
   private final TicketMapper mapper;
 
-  @Operation(description = "This method creates a new support ticket in the system")
+  @Operation(description = "This method CREATE a new support ticket in the system", method = "POST")
   @PostMapping
   public ResponseEntity<TicketDto> create(@RequestBody CreateTicketDto request, Authentication authentication) {
 
@@ -45,7 +47,26 @@ public class TicketController {
 
   }
 
-  @Operation(description = "This method creates a new support ticket interaction in the system")
+  @Operation(description = "This method UPDATE a support ticket in the system", method = "UPDATE")
+  @PutMapping(value = "/id")
+  public ResponseEntity<TicketDto> update(@PathVariable UUID id, @RequestBody CreateTicketDto request,
+      Authentication authentication) {
+
+    TicketDto ticketDto = mapper.toDto(this.ticketService.updateTicket(id, request, authentication));
+    return ResponseEntity.ok().body(ticketDto);
+
+  }
+
+  @Operation(description = "This method DELETE a support ticket in the system", method = "DELETE")
+  @DeleteMapping(value = "/id")
+  public ResponseEntity<TicketDto> deleteTichet(@PathVariable UUID id, Authentication authentication) {
+
+    this.ticketService.delete(id, authentication);
+    return ResponseEntity.ok().build();
+
+  }
+
+  @Operation(description = "This method CREATE a new support ticket interaction in the system", method = "POST")
   @PostMapping(value = "/{id}/interaction")
   public ResponseEntity<TicketDto> createTicketInteraction(@PathVariable(name = "id") UUID ticketId,
       @RequestBody CreateTicketInteractionDto request, Authentication authentication) {
@@ -59,7 +80,7 @@ public class TicketController {
 
   }
 
-  @Operation(description = "This method list alll tickets")
+  @Operation(description = "This method LIST alll tickets", method = "GET")
   @GetMapping
   public ResponseEntity<List<TicketDto>> listAllTickets(Authentication authentication) {
 
@@ -69,7 +90,7 @@ public class TicketController {
 
   }
 
-  @Operation(description = "This method returns a ticket from the sytem by provider id")
+  @Operation(description = "This method GET a ticket from the sytem by provider id", method = "GET")
   @GetMapping(value = "/{id}")
   public ResponseEntity<TicketDto> getById(@PathVariable(name = "id") UUID ticketId,
       Authentication authentication) {
@@ -80,7 +101,7 @@ public class TicketController {
 
   }
 
-  @Operation(description = "This method returns all interactions of a ticket from the sytem by provider ticket id")
+  @Operation(description = "This method GET all interactions of a ticket from the sytem by provider ticket id", method = "GET")
   @GetMapping(value = "/{id}/interactions")
   public ResponseEntity<List<TicketInteractionDto>> getInteractionsByTicketId(@PathVariable(name = "id") UUID ticketId,
       Authentication authentication) {

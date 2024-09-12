@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oliveira.helpdesk.domain.Attachment;
 import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
+import com.oliveira.helpdesk.dto.CreateTicketDto;
 import com.oliveira.helpdesk.entity.TicketAttachmentEntity;
 import com.oliveira.helpdesk.entity.TicketEntity;
 import com.oliveira.helpdesk.entity.TicketInteractionEntity;
@@ -226,6 +227,65 @@ public class TicketService {
 
     } else if (user.equals(ticket.getCreatedBy())) {
       return mapper.toInteractionsDomain(ticketInteractionRepository.findByTicket(ticket));
+
+    } else {
+      throw new BusinessException("Ticket Interaction Access UNAUNTHORIZED");
+
+    }
+
+  }
+
+  // ** REFACTOR **
+  public Ticket updateTicket(UUID id, CreateTicketDto data, Authentication authentication) {
+
+    UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
+    if (user == null) {
+      throw new BusinessException("User not found with provided id OR Unaunthorized");
+    }
+
+    TicketEntity entity = ticketRepository.findById(id).orElse(null);
+    if (entity == null) {
+      throw new BusinessException("Ticket not found with provided id");
+    }
+
+    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)
+        || user.equals(entity.getCreatedBy())) {
+
+      // UPDATE
+      if (!data.subject().isEmpty()) {
+        entity.setSubject(data.subject());
+      }
+      if (!data.description().isEmpty()) {
+        entity.setSubject(data.description());
+      }
+
+      // AND ARRAY OF ATTCHMENTS ?
+
+      // UPDATE TICKET ENTITY
+      this.ticketRepository.save(entity);
+      return mapper.toDomain(entity);
+
+    } else {
+      throw new BusinessException("Ticket Interaction Access UNAUNTHORIZED");
+    }
+
+  }
+
+  public void delete(UUID id, Authentication authentication) {
+
+    UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
+    if (user == null) {
+      throw new BusinessException("User not found or not authenticated");
+    }
+
+    TicketEntity ticket = ticketRepository.findById(id).orElse(null);
+    if (ticket == null) {
+      throw new BusinessException("Ticket not found with provided id");
+    }
+
+    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)
+        || user.equals(ticket.getCreatedBy())) {
+      this.ticketRepository.delete(ticket);
 
     } else {
       throw new BusinessException("Ticket Interaction Access UNAUNTHORIZED");

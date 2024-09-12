@@ -1,13 +1,20 @@
 package com.oliveira.helpdesk.controller;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.CreateUserDto;
+import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.service.UserService;
@@ -26,7 +33,7 @@ public class UserController {
 
   private final UserMapper mapper;
 
-  @Operation(description = "[PUBLIC] This method creates a new user with role CUSTOMER in the system. ")
+  @Operation(description = "[PUBLIC] This method CREATE a new user with role CUSTOMER in the system.", method = "POST")
   @PostMapping("/register")
   public ResponseEntity<UserDto> create(@RequestBody CreateUserDto request) {
 
@@ -36,13 +43,49 @@ public class UserController {
 
   }
 
-  @Operation(description = "[PRIVATE] This method creates a new user with role SUPPORT_ATTENDENT in the system. Justo for admin")
+  @Operation(description = "[PRIVATE] This method CREATE a new user with role SUPPORT_ATTENDENT in the system. Just for admin", method = "POST")
   @PostMapping("/registerSupportAttendent")
   public ResponseEntity<UserDto> createSupportUser(@RequestBody CreateUserDto request) {
 
     User domain = mapper.toDomain(request);
     UserDto createUser = mapper.toDto(userService.createSupportUser(domain));
     return ResponseEntity.ok().body(createUser);
+
+  }
+
+  @Operation(description = "This method UPDATE a user by id in the system.", method = "PUT")
+  @PutMapping(value = "/{id}")
+  public ResponseEntity<UserDto> update(@PathVariable UUID id, @RequestBody UpdateUserDto request) {
+
+    UserDto user = mapper.toDto(this.userService.update(id, request));
+    return ResponseEntity.ok().body(user);
+
+  }
+
+  @Operation(description = "This method FIND a user by id in the system", method = "GET")
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<UserDto> findById(@PathVariable("{id}") UUID id) {
+
+    UserDto user = mapper.toDto(userService.findById(id));
+    return ResponseEntity.ok().body(user);
+
+  }
+
+  @Operation(description = "This method FIND a user by username in the system", method = "GET")
+  @GetMapping()
+  public ResponseEntity<UserDto> findByUsername(@RequestBody String username) {
+
+    UserDto user = mapper.toDto(userService.findByUsername(username));
+    return ResponseEntity.ok().body(user);
+
+  }
+
+  @Operation(description = "This method DELETE a user by idin the system", method = "DELETE")
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<UserDto> delete(@PathVariable("id") UUID id) {
+
+    this.userService.deleteUser(id);
+    return ResponseEntity.ok().build();
 
   }
 }

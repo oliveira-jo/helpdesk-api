@@ -8,4 +8,8 @@ public class ObjectNotFoundException extends RuntimeException {
     super(error);
   }
 
+  public ObjectNotFoundException() {
+    super();
+  }
+
 }
