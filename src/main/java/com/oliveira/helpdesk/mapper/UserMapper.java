@@ -1,5 +1,7 @@
 package com.oliveira.helpdesk.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,6 +16,8 @@ public interface UserMapper {
   User toDomain(UserEntity entity);
 
   UserDto toDto(User damin);
+
+  List<UserDto> toDto(List<UserEntity> damin);
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "createdAt", ignore = true)

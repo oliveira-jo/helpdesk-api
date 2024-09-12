@@ -5,14 +5,16 @@ import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.entity.UserEntity;
 import com.oliveira.helpdesk.enums.UserRole;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-09-11T17:59:39-0300",
+    date = "2024-09-11T23:13:11-0300",
     comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.39.0.v20240820-0604, environment: Java 17.0.12 (Eclipse Adoptium)"
 )
 @Component
@@ -72,6 +74,20 @@ public class UserMapperImpl implements UserMapper {
         UserDto userDto = new UserDto( id, username, name, email, active, role, createdAt );
 
         return userDto;
+    }
+
+    @Override
+    public List<UserDto> toDto(List<UserEntity> damin) {
+        if ( damin == null ) {
+            return null;
+        }
+
+        List<UserDto> list = new ArrayList<UserDto>( damin.size() );
+        for ( UserEntity userEntity : damin ) {
+            list.add( toDto( toDomain( userEntity ) ) );
+        }
+
+        return list;
     }
 
     @Override

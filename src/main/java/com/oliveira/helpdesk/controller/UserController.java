@@ -1,8 +1,10 @@
 package com.oliveira.helpdesk.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
+import com.oliveira.helpdesk.entity.UserEntity;
 import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.service.UserService;
 
@@ -55,9 +58,10 @@ public class UserController {
 
   @Operation(description = "This method UPDATE a user by id in the system.", method = "PUT")
   @PutMapping(value = "/{id}")
-  public ResponseEntity<UserDto> update(@PathVariable UUID id, @RequestBody UpdateUserDto request) {
+  public ResponseEntity<UserDto> update(@PathVariable UUID id, @RequestBody UpdateUserDto request,
+      Authentication authentication) {
 
-    UserDto user = mapper.toDto(this.userService.update(id, request));
+    UserDto user = mapper.toDto(this.userService.update(id, request, authentication));
     return ResponseEntity.ok().body(user);
 
   }
@@ -68,6 +72,15 @@ public class UserController {
 
     UserDto user = mapper.toDto(userService.findById(id));
     return ResponseEntity.ok().body(user);
+
+  }
+
+  @Operation(description = "[PRIVATE] This method FIND all user of system", method = "GET")
+  @GetMapping(value = "/GetAllUsers")
+  public ResponseEntity<List<UserDto>> findAllUsers(Authentication authentication) {
+
+    List<UserDto> users = userService.findAllUsers(authentication);
+    return ResponseEntity.ok().body(users);
 
   }
 
@@ -82,9 +95,9 @@ public class UserController {
 
   @Operation(description = "This method DELETE a user by idin the system", method = "DELETE")
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<UserDto> delete(@PathVariable("id") UUID id) {
+  public ResponseEntity<UserDto> delete(@PathVariable("id") UUID id, Authentication authentication) {
 
-    this.userService.deleteUser(id);
+    this.userService.delete(id, authentication);
     return ResponseEntity.ok().build();
 
   }
