@@ -85,7 +85,6 @@ public class TicketController {
   public ResponseEntity<List<TicketDto>> listAllTickets(Authentication authentication) {
 
     List<TicketDto> tickets = mapper.toDto(ticketService.listAll(authentication));
-
     return ResponseEntity.ok().body(tickets);
 
   }

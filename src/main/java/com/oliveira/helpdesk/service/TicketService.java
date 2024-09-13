@@ -172,7 +172,8 @@ public class TicketService {
     Optional<UserEntity> userEntity = userRepository.findByUsername(userDetails.getUsername());
 
     for (GrantedAuthority authority : userDetails.getAuthorities()) {
-      if (authority.getAuthority().equals(("ROLE_ADMIN")) || authority.getAuthority().equals(("SUPPORT_ATTENDANT"))) {
+      if (authority.getAuthority().equals(("ROLE_ADMIN")) ||
+          authority.getAuthority().equals(("SUPPORT_ATTENDANT"))) {
         return mapper.toDomain(ticketRepository.findAll());
 
       } else if (authority.getAuthority().equals(("ROLE_CUSTOMER"))) {
