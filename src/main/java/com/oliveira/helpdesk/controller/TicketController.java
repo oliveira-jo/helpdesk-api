@@ -20,6 +20,7 @@ import com.oliveira.helpdesk.dto.CreateTicketDto;
 import com.oliveira.helpdesk.dto.CreateTicketInteractionDto;
 import com.oliveira.helpdesk.dto.TicketDto;
 import com.oliveira.helpdesk.dto.TicketInteractionDto;
+import com.oliveira.helpdesk.dto.UpdateTicketDto;
 import com.oliveira.helpdesk.mapper.TicketMapper;
 import com.oliveira.helpdesk.service.TicketService;
 
@@ -49,7 +50,7 @@ public class TicketController {
 
   @Operation(description = "This method UPDATE a support ticket in the system", method = "UPDATE")
   @PutMapping(value = "/{id}")
-  public ResponseEntity<TicketDto> update(@PathVariable(name = "id") UUID id, @RequestBody CreateTicketDto request,
+  public ResponseEntity<TicketDto> update(@PathVariable(name = "id") UUID id, @RequestBody UpdateTicketDto request,
       Authentication authentication) {
 
     TicketDto ticketDto = mapper.toDto(this.ticketService.updateTicket(id, request, authentication));

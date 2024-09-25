@@ -17,6 +17,7 @@ import com.oliveira.helpdesk.domain.Attachment;
 import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
 import com.oliveira.helpdesk.dto.CreateTicketDto;
+import com.oliveira.helpdesk.dto.UpdateTicketDto;
 import com.oliveira.helpdesk.entity.TicketAttachmentEntity;
 import com.oliveira.helpdesk.entity.TicketEntity;
 import com.oliveira.helpdesk.entity.TicketInteractionEntity;
@@ -237,7 +238,7 @@ public class TicketService {
   }
 
   // ** REFACTOR **
-  public Ticket updateTicket(UUID id, CreateTicketDto data, Authentication authentication) {
+  public Ticket updateTicket(UUID id, UpdateTicketDto data, Authentication authentication) {
 
     UserEntity userLooged = userRepository.findByUsername(authentication.getName()).orElse(null);
     if (userLooged == null) {
@@ -252,16 +253,28 @@ public class TicketService {
     if (userLooged.getRole().equals(UserRole.ADMIN) || userLooged.getRole().equals(UserRole.SUPPORT_ATTENDANT)
         || userLooged.equals(ticketEntity.getCreatedBy())) {
 
-      // UPDATE
+      // UPDATE principal
       if (!data.subject().isEmpty()) {
         ticketEntity.setSubject(data.subject());
       }
       if (!data.description().isEmpty()) {
-        ticketEntity.setSubject(data.description());
+        ticketEntity.setDescription(data.description());
       }
 
+      // Tests with tickets status
+      if (ticketEntity.getStatus().equals(TicketStatus.OPEN)) {
+        ticketEntity.setStatus(TicketStatus.IN_PROGRESS);
+      }
+      if (!ticketEntity.getStatus().equals(TicketStatus.OPEN)) {
+        ticketEntity.setStatus(data.status());
+      }
+
+      // Datos of modifications
+      ticketEntity.setUpdateAt(new Date());
+      ticketEntity.setUpdatedBy(userLooged.getId());
+
       // AND ARRAY OF ATTCHMENTS ?
-      // ******************************************************************************************
+      // ****************************
 
       // UPDATE TICKET ENTITY
       this.ticketRepository.save(ticketEntity);

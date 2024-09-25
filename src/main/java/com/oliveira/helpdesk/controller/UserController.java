@@ -55,7 +55,7 @@ public class UserController {
 
   }
 
-  @Operation(description = "This method UPDATE a user by id in the system.", method = "PUT")
+  @Operation(description = "This method UPDATE a user by a provide id in the system.", method = "PUT")
   @PutMapping(value = "/{id}")
   public ResponseEntity<UserDto> update(@PathVariable(name = "id") UUID id, @RequestBody UpdateUserDto request,
       Authentication authentication) {
@@ -65,7 +65,7 @@ public class UserController {
 
   }
 
-  @Operation(description = "This method FIND a user by id in the system", method = "GET")
+  @Operation(description = "This method FIND a user by a provide id in the system", method = "GET")
   @GetMapping(value = "/{id}")
   public ResponseEntity<UserDto> findById(@PathVariable(name = "id") UUID id) {
 
@@ -83,8 +83,8 @@ public class UserController {
 
   }
 
-  @Operation(description = "This method FIND a user by username in the system", method = "GET")
-  @GetMapping()
+  @Operation(description = "This method FIND a user in the system passsing a username with parameter", method = "GET")
+  @GetMapping(value = "GetUserByUsername")
   public ResponseEntity<UserDto> findByUsername(@RequestBody String username) {
 
     UserDto user = mapper.toDto(userService.findByUsername(username));
@@ -92,7 +92,7 @@ public class UserController {
 
   }
 
-  @Operation(description = "This method DELETE a user by idin the system", method = "DELETE")
+  @Operation(description = "This method DELETE a user by a provide id in the system", method = "DELETE")
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<UserDto> delete(@PathVariable("id") UUID id, Authentication authentication) {
 
