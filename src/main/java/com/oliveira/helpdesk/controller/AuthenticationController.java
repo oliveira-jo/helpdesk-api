@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oliveira.helpdesk.dto.AuthResponseDto;
 import com.oliveira.helpdesk.dto.LoginRequestDto;
+import com.oliveira.helpdesk.dto.UserDto;
+import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.security.CustomUserDetails;
 import com.oliveira.helpdesk.security.JwtUtil;
 
@@ -32,7 +34,9 @@ public class AuthenticationController {
 
   private final AuthenticationManager authManager;
 
-  @Operation(description = "This method get a bearer token to be used in the system.", method = "POST")
+  private final UserMapper mapper;
+
+  @Operation(description = "This method do a login in the system and the return is a bearer token to be used in all endpoints.", method = "POST")
   @PostMapping(value = "/login")
   public ResponseEntity<AuthResponseDto> doLogin(@RequestBody @Valid LoginRequestDto request) {
 
@@ -42,9 +46,11 @@ public class AuthenticationController {
               request.username(),
               request.password()));
       CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-      AuthResponseDto tokenResponse = jwtUtil.generateToken(userDetails.getUsername());
+      AuthResponseDto tokenResponse = jwtUtil.generateToken(userDetails.getId(), userDetails.getUsername());
+
       // System.out.println("================================");
       // System.out.println(authentication.getAuthorities());
+
       return ResponseEntity.ok().body(tokenResponse);
     } catch (BadCredentialsException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -53,11 +59,11 @@ public class AuthenticationController {
 
   @Operation(description = "This method return the user logged in the system.")
   @GetMapping
-  public ResponseEntity<CustomUserDetails> getUserLogged(Authentication authentication) {
+  public ResponseEntity<UserDto> getUserLogged(Authentication authentication) {
 
     CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-    return ResponseEntity.ok().body(userDetails);
+    return ResponseEntity.ok().body(mapper.toDto(userDetails.getUser()));
 
   }
 }

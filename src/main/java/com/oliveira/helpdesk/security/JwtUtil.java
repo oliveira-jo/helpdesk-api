@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class JwtUtil {
@@ -25,9 +26,10 @@ public class JwtUtil {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  public AuthResponseDto generateToken(String username) {
+  public AuthResponseDto generateToken(UUID id, String username) {
     JWTClaimsSet claims = new JWTClaimsSet.Builder()
         .subject(username)
+        .jwtID(id.toString())
         .issueTime(new Date())
         .expirationTime(Date.from(Instant.now().plusSeconds(JWT_EXPIRATION_TIME)))
         .build();
@@ -39,7 +41,7 @@ public class JwtUtil {
       signedJWT.sign(signer);
 
       logger.info(" - - - - [GENERATED TOKEN] - - - - ");
-      return new AuthResponseDto(username, signedJWT.serialize(), claims.getExpirationTime().getTime());
+      return new AuthResponseDto(id, username, signedJWT.serialize(), claims.getExpirationTime().getTime());
 
     } catch (Exception e) {
       logger.error("Error generating token", e);

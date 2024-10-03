@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.entity.UserEntity;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
   User toDomain(UserEntity entity);

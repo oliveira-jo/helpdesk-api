@@ -1,8 +1,11 @@
 package com.oliveira.helpdesk.dto;
 
+import java.util.UUID;
+
 public record AuthResponseDto(
-    String username,
-    String accessToken,
-    Long expiresIn) {
+                UUID id,
+                String username,
+                String accessToken,
+                Long expiresIn) {
 
 }

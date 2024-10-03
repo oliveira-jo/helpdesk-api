@@ -39,6 +39,10 @@ public class CustomUserDetails implements UserDetails {
     // return List.of();
   }
 
+  public User getUser() {
+    return this.user;
+  }
+
   public UUID getId() {
     return user.id();
   }

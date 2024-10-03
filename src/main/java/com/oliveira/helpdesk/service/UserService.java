@@ -85,8 +85,6 @@ public class UserService {
         entity.setName(data.name());
       if (!data.username().isEmpty())
         entity.setUsername(data.username());
-      if (!data.password().isEmpty())
-        entity.setPassword(new BCryptPasswordEncoder().encode(data.password()));
       if (!data.email().isEmpty())
         entity.setEmail(data.email());
       if (data.active() != null)

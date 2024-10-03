@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oliveira.helpdesk.domain.Attachment;
 import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
-import com.oliveira.helpdesk.dto.CreateTicketDto;
 import com.oliveira.helpdesk.dto.UpdateTicketDto;
 import com.oliveira.helpdesk.entity.TicketAttachmentEntity;
 import com.oliveira.helpdesk.entity.TicketEntity;
