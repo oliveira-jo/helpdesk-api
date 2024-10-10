@@ -26,10 +26,10 @@ public class JwtUtil {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  public AuthResponseDto generateToken(UUID id, String username) {
+  public AuthResponseDto generateToken(UUID userId, String username) {
     JWTClaimsSet claims = new JWTClaimsSet.Builder()
         .subject(username)
-        .jwtID(id.toString())
+        .audience(userId.toString())
         .issueTime(new Date())
         .expirationTime(Date.from(Instant.now().plusSeconds(JWT_EXPIRATION_TIME)))
         .build();
@@ -41,7 +41,7 @@ public class JwtUtil {
       signedJWT.sign(signer);
 
       logger.info(" - - - - [GENERATED TOKEN] - - - - ");
-      return new AuthResponseDto(id, username, signedJWT.serialize(), claims.getExpirationTime().getTime());
+      return new AuthResponseDto(userId, username, signedJWT.serialize(), claims.getExpirationTime().getTime());
 
     } catch (Exception e) {
       logger.error("Error generating token", e);
