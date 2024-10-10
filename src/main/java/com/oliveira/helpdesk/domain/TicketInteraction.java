@@ -29,12 +29,11 @@ public class TicketInteraction {
 
   private UserEntity createdBy;
 
-  private List<Attachment> attachments;
-
   private Date createdAt;
 
   private UUID updatedBy;
 
   private Date updateAt;
 
+  private List<Attachment> attachments;
 }

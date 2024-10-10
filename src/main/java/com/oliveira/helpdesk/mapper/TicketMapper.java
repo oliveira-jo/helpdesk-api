@@ -19,6 +19,9 @@ import com.oliveira.helpdesk.entity.TicketInteractionEntity;
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface TicketMapper {
 
+  // For diferent name of variables
+  // @Mapping(source = "userId", target = "sentByUser")
+
   @Mapping(target = "createdByUserId", ignore = true)
   @Mapping(target = "attachments", ignore = true)
   Ticket toDomain(TicketEntity entity);
@@ -59,9 +62,8 @@ public interface TicketMapper {
 
   List<TicketInteractionDto> toTicketInteractionsDto(List<TicketInteraction> domains);
 
-  @Mapping(target = "attachments", ignore = true)
-  @Mapping(target = "ticketId", ignore = true)
   @Mapping(target = "userId", ignore = true)
+  @Mapping(target = "ticketId", ignore = true)
+  @Mapping(target = "attachments", ignore = true)
   List<TicketInteraction> toInteractionsDomain(List<TicketInteractionEntity> byTicket);
-
 }
