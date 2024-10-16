@@ -273,6 +273,11 @@ public class TicketService {
       ticketEntity.setUpdateAt(new Date());
       ticketEntity.setUpdatedBy(userLooged.getId());
 
+      // Put a support attend for the first that open the call
+      if (userLooged.getRole().equals(UserRole.ADMIN) || userLooged.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
+        ticketEntity.setSupportUser(userLooged);
+      }
+
       // AND ARRAY OF ATTCHMENTS ?
       // ****************************
 
