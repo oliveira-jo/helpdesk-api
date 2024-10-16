@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.oliveira.helpdesk.domain.Attachment;
 import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
+import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.UpdateTicketDto;
 import com.oliveira.helpdesk.entity.TicketAttachmentEntity;
 import com.oliveira.helpdesk.entity.TicketEntity;
@@ -308,4 +309,38 @@ public class TicketService {
 
   }
 
+  public StatusResponseDto numberOfStatus(Authentication authentication) {
+
+    UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
+    if (user == null) {
+      throw new BusinessException("User not found or not authenticated");
+    }
+
+    var newTickets = this.listAll(authentication);
+    var open = 0;
+    var inProgress = 0;
+    var awatting = 0;
+    var resolved = 0;
+    var cancelled = 0;
+
+    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
+      for (Ticket ticket : newTickets) {
+        if (ticket.getStatus().equals(TicketStatus.OPEN))
+          open++;
+        if (ticket.getStatus().equals(TicketStatus.IN_PROGRESS))
+          inProgress++;
+        if (ticket.getStatus().equals(TicketStatus.AWAITING_CUSTOMER_ANSWER))
+          awatting++;
+        if (ticket.getStatus().equals(TicketStatus.RESOLVED))
+          resolved++;
+        if (ticket.getStatus().equals(TicketStatus.CANCELLED))
+          cancelled++;
+      }
+      return new StatusResponseDto(open, inProgress, awatting, resolved, cancelled);
+
+    } else {
+      throw new BusinessException("Numbers of Status - Access UNAUNTHORIZED");
+
+    }
+  }
 }

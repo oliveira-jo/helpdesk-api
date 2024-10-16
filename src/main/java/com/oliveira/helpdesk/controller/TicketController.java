@@ -18,6 +18,7 @@ import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
 import com.oliveira.helpdesk.dto.CreateTicketDto;
 import com.oliveira.helpdesk.dto.CreateTicketInteractionDto;
+import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.TicketDto;
 import com.oliveira.helpdesk.dto.TicketInteractionDto;
 import com.oliveira.helpdesk.dto.UpdateTicketDto;
@@ -87,6 +88,15 @@ public class TicketController {
 
     List<TicketDto> tickets = mapper.toDto(ticketService.listAll(authentication));
     return ResponseEntity.ok().body(tickets);
+
+  }
+
+  @Operation(description = "This method returs the numbers of tickets saved in the DB with it's status", method = "GET")
+  @GetMapping(value = "/numberOfStatus")
+  public ResponseEntity<StatusResponseDto> numberOfStatus(Authentication authentication) {
+
+    StatusResponseDto status = this.ticketService.numberOfStatus(authentication);
+    return ResponseEntity.ok().body(status);
 
   }
 
