@@ -10,11 +10,11 @@ import com.oliveira.helpdesk.enums.UserRole;
 import com.oliveira.helpdesk.repository.UserRepository;
 
 @Component
-public class Config {
+public class UserConfig {
 
   UserRepository repository;
 
-  Config(UserRepository repository) {
+  UserConfig(UserRepository repository) {
     this.repository = repository;
     this.veryfyAdminBd();
   }

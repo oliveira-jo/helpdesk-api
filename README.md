@@ -61,8 +61,31 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
+## Flyway for table versions in DB
+### The version contain sql is in
+
++ ✅ resourses/db/migration/versions.sql
+
+## Configurations Spring Security and COR's
+### The configurations is in
+
++ ✅ src/main/java/com/oliveira/helpdesk/configuration/SecurityConfig.java
+
+## Configuration Admin and Attendent in BD
+### Create and configurate expecials users
+
++ ✅ Every time when the system run, Create if not exist this users in BD
++ ✅ src/main/java/com/oliveira/helpdesk/configuration/UserConfig.java
+
+
 ## API Endpoints
+### Using Swagger ui for map the api andpoins 
+
++ ✅ The endpoints can be accessed in browser by 
+```
 http://localhost:8000/api/v1/swagger-ui/index.html#/
+```
+
 
 
 
