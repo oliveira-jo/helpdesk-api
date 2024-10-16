@@ -9,10 +9,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.User;
+import com.oliveira.helpdesk.dto.NumberUsersDto;
+import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.entity.UserEntity;
+import com.oliveira.helpdesk.enums.TicketStatus;
 import com.oliveira.helpdesk.enums.UserRole;
 import com.oliveira.helpdesk.exception.AuthorizationException;
 import com.oliveira.helpdesk.exception.BusinessException;
@@ -160,4 +164,30 @@ public class UserService {
 
   }
 
+  public NumberUsersDto numberOfUsers(Authentication authentication) {
+
+    UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
+    if (user == null) {
+      throw new BusinessException("User not found or not authenticated");
+    }
+
+    var newUsers = this.findAllUsers(authentication);
+    var userAdmin = 0;
+    var userAttendent = 0;
+    var defaultUser = 0;
+
+    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
+      for (UserDto data : newUsers) {
+        if (data.role().equals(UserRole.ADMIN))
+          userAdmin++;
+        if (data.role().equals(UserRole.SUPPORT_ATTENDANT))
+          userAttendent++;
+        if (data.role().equals(UserRole.CUSTOMER))
+          defaultUser++;
+      }
+      return new NumberUsersDto(userAdmin, userAttendent, defaultUser);
+    } else {
+      throw new BusinessException("Numbers of Users - Access UNAUNTHORIZED");
+    }
+  }
 }
