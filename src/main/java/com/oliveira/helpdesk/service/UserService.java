@@ -9,14 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.NumberUsersDto;
-import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.entity.UserEntity;
-import com.oliveira.helpdesk.enums.TicketStatus;
 import com.oliveira.helpdesk.enums.UserRole;
 import com.oliveira.helpdesk.exception.AuthorizationException;
 import com.oliveira.helpdesk.exception.BusinessException;

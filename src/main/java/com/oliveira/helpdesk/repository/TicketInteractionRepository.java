@@ -14,4 +14,6 @@ public interface TicketInteractionRepository extends JpaRepository<TicketInterac
 
   List<TicketInteractionEntity> findByTicket(TicketEntity ticket);
 
+  void deleteByTicket(TicketEntity ticket);
+
 }

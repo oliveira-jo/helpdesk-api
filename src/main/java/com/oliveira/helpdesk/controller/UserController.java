@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.NumberUsersDto;
-import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.mapper.UserMapper;

@@ -291,6 +291,7 @@ public class TicketService {
 
   }
 
+  @Transactional
   public void delete(UUID id, Authentication authentication) {
 
     UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
@@ -305,6 +306,15 @@ public class TicketService {
 
     if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)
         || user.equals(ticket.getCreatedBy())) {
+
+      // Delete all interactions by ticket id
+      if (ticket.getStatus().equals(TicketStatus.RESOLVED) || ticket.getStatus().equals(TicketStatus.CANCELLED)) {
+
+        System.out.println("************ Entrou no if RESOLVIDO OU CANCELADO para excluir ************");
+        this.ticketInteractionRepository.deleteByTicket(ticket);
+
+      }
+      // Delete ticket
       this.ticketRepository.delete(ticket);
 
     } else {
