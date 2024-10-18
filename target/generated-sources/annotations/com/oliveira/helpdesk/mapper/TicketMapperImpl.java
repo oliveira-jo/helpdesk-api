@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-16T17:56:53-0300",
+    date = "2024-10-17T20:57:59-0300",
     comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.40.0.v20240919-1711, environment: Java 17.0.12 (Eclipse Adoptium)"
 )
 @Component
@@ -332,16 +332,16 @@ public class TicketMapperImpl implements TicketMapper {
         TicketStatus status = null;
         List<AttachmentDto> attachments = null;
         UserDto sentByUser = null;
-        Date updateAt = null;
+        Date createdAt = null;
 
         id = ticketInteraction.getId();
         message = ticketInteraction.getMessage();
         status = ticketInteraction.getStatus();
         attachments = attachmentListToAttachmentDtoList( ticketInteraction.getAttachments() );
         sentByUser = userEntityToUserDto( ticketInteraction.getSentByUser() );
-        updateAt = ticketInteraction.getUpdateAt();
+        createdAt = ticketInteraction.getCreatedAt();
 
-        TicketInteractionDto ticketInteractionDto = new TicketInteractionDto( id, message, status, attachments, sentByUser, updateAt );
+        TicketInteractionDto ticketInteractionDto = new TicketInteractionDto( id, message, status, attachments, sentByUser, createdAt );
 
         return ticketInteractionDto;
     }

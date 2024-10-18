@@ -7,10 +7,10 @@ import java.util.UUID;
 import com.oliveira.helpdesk.enums.TicketStatus;
 
 public record TicketInteractionDto(
-                UUID id,
-                String message,
-                TicketStatus status,
-                List<AttachmentDto> attachments,
-                UserDto sentByUser,
-                Date updateAt) {
+    UUID id,
+    String message,
+    TicketStatus status,
+    List<AttachmentDto> attachments,
+    UserDto sentByUser,
+    Date createdAt) {
 }
