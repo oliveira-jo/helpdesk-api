@@ -4,15 +4,18 @@
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
-
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-000?style=for-the-badge&logo=postgresql)
+![Vscode](https://img.shields.io/badge/Vscode-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![Postman](https://img.shields.io/badge/Postman-FF6C37.svg?style=for-the-badge&logo=Postman&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white) 
 
 ## Objective
-The objective of this project is the development of an API to provide a system of HelpDesk
+The main objective of this project is the development an API to provide a system of HelpDesk. 
+Secondly is to apply all knowloag I got throw the years.   
 
 
-## Project Tamplate MVC
+## Project Base in MVC
 + CONTROLLERS (DTO's)
 + SERVICES (DTO's)
 + REPOSITORIES (Entities)
@@ -24,13 +27,14 @@ The objective of this project is the development of an API to provide a system o
 * Spring Boot Starter Web: Servidor Tomcat
 * Spring Boot Devtools: Hot Heload 
 * Spring Boot Starter Data JPA: Persistence
-* MySQL Data Base: BD
+* Spring Boot Starter Security  
+* Banner Spring Geneerate
 * MySQL Driver
-* Lombok: Genereted methos Get, Set, and others
+* MySQL Data Base: BD
 * Flyway: Data Base Versions
 * Mapper MapStruct: Mapping the objects, dts and domain  
+* Lombok: Genereted methos Get, Set, and others
 * Java Docks / Swagger: API Documentation
-* Spring Boot Starter Security 
 
 
 ## Features Under Development
@@ -48,6 +52,7 @@ The objective of this project is the development of an API to provide a system o
 + ✅ Create User ROLES
 + ✅ Get all tickets by role, Admin and attendant see all and customer see their tickets
 + ✅ Get tickets by id with role, Admin and attendant AND customer 
++ ✅ CRUD tickets and tickets interactions
 
 
 ## Configuring the Database
@@ -66,10 +71,12 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 
 + ✅ resourses/db/migration/versions.sql
 
+
 ## Configurations Spring Security and COR's
 ### The configurations is in
 
 + ✅ src/main/java/com/oliveira/helpdesk/configuration/SecurityConfig.java
+
 
 ## Configuration Admin and Attendent in BD
 ### Create and configurate expecials users
@@ -82,6 +89,7 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ### Using Swagger ui for map the api andpoins 
 
 + ✅ The endpoints can be accessed in browser by 
+
 ```
 http://localhost:8000/api/v1/swagger-ui/index.html#/
 ```
