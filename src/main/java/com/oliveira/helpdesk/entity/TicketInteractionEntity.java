@@ -14,9 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "ticket_interactions")
 public class TicketInteractionEntity {
@@ -50,5 +48,73 @@ public class TicketInteractionEntity {
 
   @Column(name = "updated_at")
   private Date updateAt;
+
+  public UUID getId() {
+    return id;
+  }
+
+  public TicketEntity getTicket() {
+    return ticket;
+  }
+
+  public void setTicket(TicketEntity ticket) {
+    this.ticket = ticket;
+  }
+
+  public UserEntity getSentByUser() {
+    return sentByUser;
+  }
+
+  public void setSentByUser(UserEntity sentByUser) {
+    this.sentByUser = sentByUser;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public TicketStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TicketStatus status) {
+    this.status = status;
+  }
+
+  public UserEntity getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(UserEntity createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public UUID getUpdatedBy() {
+    return updatedBy;
+  }
+
+  public void setUpdatedBy(UUID updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+
+  public Date getUpdateAt() {
+    return updateAt;
+  }
+
+  public void setUpdateAt(Date updateAt) {
+    this.updateAt = updateAt;
+  }
 
 }

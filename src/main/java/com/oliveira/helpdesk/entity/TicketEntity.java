@@ -14,9 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "tickets")
 public class TicketEntity {
@@ -49,5 +47,77 @@ public class TicketEntity {
 
   @Column(name = "updated_at")
   private Date updateAt;
+
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public UserEntity getSupportUser() {
+    return supportUser;
+  }
+
+  public void setSupportUser(UserEntity supportUser) {
+    this.supportUser = supportUser;
+  }
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public TicketStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(TicketStatus status) {
+    this.status = status;
+  }
+
+  public UserEntity getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(UserEntity createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public UUID getUpdatedBy() {
+    return updatedBy;
+  }
+
+  public void setUpdatedBy(UUID updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+
+  public Date getUpdateAt() {
+    return updateAt;
+  }
+
+  public void setUpdateAt(Date updateAt) {
+    this.updateAt = updateAt;
+  }
 
 }

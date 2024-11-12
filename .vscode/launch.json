@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-HelpdeskApplication<helpdesk>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.oliveira.helpdesk.HelpdeskApplication",
+      "projectName": "helpdesk",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

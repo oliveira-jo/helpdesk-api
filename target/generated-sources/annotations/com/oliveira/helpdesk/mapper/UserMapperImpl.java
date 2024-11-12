@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-10-02T15:40:25-0300",
-    comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.40.0.v20240919-1711, environment: Java 17.0.12 (Eclipse Adoptium)"
+    date = "2024-11-05T19:46:08-0300",
+    comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.40.0.z20241023-1306, environment: Java 17.0.13 (Eclipse Adoptium)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -63,13 +63,13 @@ public class UserMapperImpl implements UserMapper {
         UserRole role = null;
         Date createdAt = null;
 
-        id = damin.id();
-        username = damin.username();
-        name = damin.name();
-        email = damin.email();
-        active = damin.active();
-        role = damin.role();
-        createdAt = damin.createdAt();
+        id = damin.getId();
+        username = damin.getUsername();
+        name = damin.getName();
+        email = damin.getEmail();
+        active = damin.isActive();
+        role = damin.getRole();
+        createdAt = damin.getCreatedAt();
 
         UserDto userDto = new UserDto( id, username, name, email, active, role, createdAt );
 
@@ -98,12 +98,12 @@ public class UserMapperImpl implements UserMapper {
 
         UserEntity userEntity = new UserEntity();
 
-        userEntity.setActive( domain.active() );
-        userEntity.setEmail( domain.email() );
-        userEntity.setName( domain.name() );
-        userEntity.setPassword( domain.password() );
-        userEntity.setRole( domain.role() );
-        userEntity.setUsername( domain.username() );
+        userEntity.setUsername( domain.getUsername() );
+        userEntity.setPassword( domain.getPassword() );
+        userEntity.setName( domain.getName() );
+        userEntity.setEmail( domain.getEmail() );
+        userEntity.setActive( domain.isActive() );
+        userEntity.setRole( domain.getRole() );
 
         return userEntity;
     }

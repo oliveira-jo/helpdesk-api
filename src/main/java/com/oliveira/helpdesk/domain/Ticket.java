@@ -7,31 +7,108 @@ import java.util.UUID;
 import com.oliveira.helpdesk.entity.UserEntity;
 import com.oliveira.helpdesk.enums.TicketStatus;
 
-import lombok.Data;
-
-@Data
 public class Ticket {
 
-  private UUID id;
+        private UUID id;
+        private User supportUser;
+        private List<Attachment> attachments;
 
-  private User supportUser;
+        private String subject;
+        private String description;
+        private TicketStatus status;
+        private UUID createdByUserId;
 
-  private String subject;
+        private UserEntity createdBy;
+        private Date createdAt;
+        private UUID updatedBy;
+        private Date updateAt;
 
-  private String description;
+        public UUID getId() {
+                return id;
+        }
 
-  private TicketStatus status;
+        public void setId(UUID id) {
+                this.id = id;
+        }
 
-  private UUID createdByUserId;
+        public User getSupportUser() {
+                return supportUser;
+        }
 
-  private UserEntity createdBy;
+        public void setSupportUser(User supportUser) {
+                this.supportUser = supportUser;
+        }
 
-  private List<Attachment> attachments;
+        public List<Attachment> getAttachments() {
+                return attachments;
+        }
 
-  private Date createdAt;
+        public void setAttachments(List<Attachment> attachments) {
+                this.attachments = attachments;
+        }
 
-  private UUID updatedBy;
+        public String getSubject() {
+                return subject;
+        }
 
-  private Date updateAt;
+        public void setSubject(String subject) {
+                this.subject = subject;
+        }
+
+        public String getDescription() {
+                return description;
+        }
+
+        public void setDescription(String description) {
+                this.description = description;
+        }
+
+        public TicketStatus getStatus() {
+                return status;
+        }
+
+        public void setStatus(TicketStatus status) {
+                this.status = status;
+        }
+
+        public UUID getCreatedByUserId() {
+                return createdByUserId;
+        }
+
+        public void setCreatedByUserId(UUID createdByUserId) {
+                this.createdByUserId = createdByUserId;
+        }
+
+        public UserEntity getCreatedBy() {
+                return createdBy;
+        }
+
+        public void setCreatedBy(UserEntity createdBy) {
+                this.createdBy = createdBy;
+        }
+
+        public Date getCreatedAt() {
+                return createdAt;
+        }
+
+        public void setCreatedAt(Date createdAt) {
+                this.createdAt = createdAt;
+        }
+
+        public UUID getUpdatedBy() {
+                return updatedBy;
+        }
+
+        public void setUpdatedBy(UUID updatedBy) {
+                this.updatedBy = updatedBy;
+        }
+
+        public Date getUpdateAt() {
+                return updateAt;
+        }
+
+        public void setUpdateAt(Date updateAt) {
+                this.updateAt = updateAt;
+        }
 
 }

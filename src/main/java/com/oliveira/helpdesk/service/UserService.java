@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.NumberUsersDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
+import com.oliveira.helpdesk.dto.UpdateUserPasswordDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.entity.UserEntity;
 import com.oliveira.helpdesk.enums.UserRole;
@@ -32,7 +33,7 @@ public class UserService {
 
   public User createUser(User newUser) {
 
-    Optional<UserEntity> existentUser = userRepository.findByUsername(newUser.username());
+    Optional<UserEntity> existentUser = userRepository.findByUsername(newUser.getUsername());
     if (existentUser.isPresent()) {
       throw new BusinessException("This username is already in use in the system!");
     }
@@ -51,7 +52,7 @@ public class UserService {
 
   public User createSupportUser(User newUser) {
 
-    Optional<UserEntity> existentUser = userRepository.findByUsername(newUser.username());
+    Optional<UserEntity> existentUser = userRepository.findByUsername(newUser.getUsername());
     if (existentUser.isPresent()) {
       throw new BusinessException("This username is already in use in the system!");
     }
@@ -97,6 +98,42 @@ public class UserService {
 
     } else {
       throw new BusinessException("Unauthorized to update ticket: " + id);
+
+    }
+  }
+
+  public User updatePassword(UUID id, UpdateUserPasswordDto data, Authentication authentication) {
+
+    // Test if is authenticated in system
+    UserEntity userAuthenticated = userRepository.findByUsername(authentication.getName()).orElse(null);
+    if (userAuthenticated == null) {
+      throw new BusinessException("User not authenticated");
+    }
+
+    // test if user exists by id
+    var entity = this.userRepository.findById(id)
+        .orElseThrow(() -> new BusinessException("User not found in the system with this id"));
+
+    // test if user is admin or logged user
+    if (userAuthenticated.getRole().equals(UserRole.ADMIN)
+        || userAuthenticated.equals(entity)) {
+
+      // test if new passowrd is not empty
+      if (data.password().isEmpty()) {
+        throw new BusinessException("Password cannot be empty!");
+
+        // test if old passord is correct ??
+      } else if (!new BCryptPasswordEncoder().encode(data.oldPassword()).matches(entity.getPassword())) {
+        entity.setPassword(new BCryptPasswordEncoder().encode(data.password()));
+        this.userRepository.save(entity);
+        return mapper.toDomain(entity);
+
+      } else {
+        throw new BusinessException("Actual password cannot match!");
+      }
+
+    } else {
+      throw new BusinessException("Unauthorized to update User Password: " + id);
 
     }
   }
@@ -149,6 +186,10 @@ public class UserService {
       throw new BusinessException("Unauthorized to delete ADMIN");
     }
 
+    if (deleteUser.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
+      throw new BusinessException("Unauthorized to delete SUPPORT_ATTENDANT");
+    }
+
     if (userAuthenticated.getRole().equals(UserRole.ADMIN)
         || userAuthenticated.equals(deleteUser)) {
 
@@ -168,12 +209,13 @@ public class UserService {
       throw new BusinessException("User not found or not authenticated");
     }
 
-    var newUsers = this.findAllUsers(authentication);
     var userAdmin = 0;
     var userAttendent = 0;
     var defaultUser = 0;
 
-    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
+    if (user.getRole().equals(UserRole.ADMIN)) {
+      var newUsers = this.findAllUsers(authentication);
+
       for (UserDto data : newUsers) {
         if (data.role().equals(UserRole.ADMIN))
           userAdmin++;
@@ -182,9 +224,7 @@ public class UserService {
         if (data.role().equals(UserRole.CUSTOMER))
           defaultUser++;
       }
-      return new NumberUsersDto(userAdmin, userAttendent, defaultUser);
-    } else {
-      throw new BusinessException("Numbers of Users - Access UNAUNTHORIZED");
     }
+    return new NumberUsersDto(userAdmin, userAttendent, defaultUser);
   }
 }

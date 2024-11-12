@@ -86,10 +86,10 @@ public class TicketService {
         ticketAttachmentEntity.setTicket(entity);
         ticketAttachmentEntity.setCreatedBy(createdByUser);
         ticketAttachmentEntity.setCreatedAt(new Date());
-        ticketAttachmentEntity.setFilename(attachment.filename());
+        ticketAttachmentEntity.setFilename(attachment.getFilename());
         ticketAttachmentEntity = ticketAttachmentRepository.save(ticketAttachmentEntity);
         // Convert to byte arrey to save in local disk
-        saveFileToDisk(ticketAttachmentEntity, attachment.content());
+        saveFileToDisk(ticketAttachmentEntity, attachment.getContent());
       }
     }
 
@@ -136,9 +136,9 @@ public class TicketService {
         ticketAttachmentEntity.setTicketInteraction(entity);
         ticketAttachmentEntity.setCreatedBy(user);
         ticketAttachmentEntity.setCreatedAt(new Date());
-        ticketAttachmentEntity.setFilename(attachment.filename());
+        ticketAttachmentEntity.setFilename(attachment.getFilename());
         ticketAttachmentEntity = ticketAttachmentRepository.save(ticketAttachmentEntity);
-        saveFileToDisk(ticketAttachmentEntity, attachment.content());
+        saveFileToDisk(ticketAttachmentEntity, attachment.getContent());
 
       }
     }
@@ -338,24 +338,19 @@ public class TicketService {
     var resolved = 0;
     var cancelled = 0;
 
-    if (user.getRole().equals(UserRole.ADMIN) || user.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
-      for (Ticket ticket : newTickets) {
-        if (ticket.getStatus().equals(TicketStatus.OPEN))
-          open++;
-        if (ticket.getStatus().equals(TicketStatus.IN_PROGRESS))
-          inProgress++;
-        if (ticket.getStatus().equals(TicketStatus.AWAITING_CUSTOMER_ANSWER))
-          awatting++;
-        if (ticket.getStatus().equals(TicketStatus.RESOLVED))
-          resolved++;
-        if (ticket.getStatus().equals(TicketStatus.CANCELLED))
-          cancelled++;
-      }
-      return new StatusResponseDto(open, inProgress, awatting, resolved, cancelled);
-
-    } else {
-      throw new BusinessException("Numbers of Status - Access UNAUNTHORIZED");
-
+    for (Ticket ticket : newTickets) {
+      if (ticket.getStatus().equals(TicketStatus.OPEN))
+        open++;
+      if (ticket.getStatus().equals(TicketStatus.IN_PROGRESS))
+        inProgress++;
+      if (ticket.getStatus().equals(TicketStatus.AWAITING_CUSTOMER_ANSWER))
+        awatting++;
+      if (ticket.getStatus().equals(TicketStatus.RESOLVED))
+        resolved++;
+      if (ticket.getStatus().equals(TicketStatus.CANCELLED))
+        cancelled++;
     }
+    return new StatusResponseDto(open, inProgress, awatting, resolved, cancelled);
+
   }
 }

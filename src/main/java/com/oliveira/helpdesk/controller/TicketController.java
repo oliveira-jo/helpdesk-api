@@ -74,6 +74,8 @@ public class TicketController {
       @RequestBody CreateTicketInteractionDto request, Authentication authentication) {
 
     TicketInteraction domain = mapper.toDomain(request);
+
+    // domain.ticketId(ticketId);
     domain.setTicketId(ticketId);
 
     TicketDto updatedTicket = mapper.toDto(ticketService.ticketInteraction(domain, authentication.getName()));

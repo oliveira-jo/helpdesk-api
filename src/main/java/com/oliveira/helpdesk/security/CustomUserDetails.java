@@ -21,13 +21,13 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (this.user.role() == UserRole.ADMIN)
+    if (this.user.getRole() == UserRole.ADMIN)
       return List.of(
           new SimpleGrantedAuthority("ROLE_ADMIN"),
           new SimpleGrantedAuthority("SUPPORT_ATTENDANT"),
           new SimpleGrantedAuthority("ROLE_CUSTOMER"));
 
-    else if (this.user.role() == UserRole.SUPPORT_ATTENDANT)
+    else if (this.user.getRole() == UserRole.SUPPORT_ATTENDANT)
       return List.of(
           new SimpleGrantedAuthority("SUPPORT_ATTENDANT"),
           new SimpleGrantedAuthority("ROLE_CUSTOMER"));
@@ -44,17 +44,17 @@ public class CustomUserDetails implements UserDetails {
   }
 
   public UUID getId() {
-    return user.id();
+    return user.getId();
   }
 
   @Override
   public String getPassword() {
-    return user.password();
+    return user.getPassword();
   }
 
   @Override
   public String getUsername() {
-    return user.username();
+    return user.getUsername();
   }
 
   @Override

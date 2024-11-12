@@ -18,6 +18,7 @@ import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.NumberUsersDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
+import com.oliveira.helpdesk.dto.UpdateUserPasswordDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.service.UserService;
@@ -62,6 +63,17 @@ public class UserController {
       Authentication authentication) {
 
     UserDto user = mapper.toDto(this.userService.update(id, request, authentication));
+    return ResponseEntity.ok().body(user);
+
+  }
+
+  @Operation(description = "This method UPDATE the password of a user by a provide id in the system.", method = "PUT")
+  @PutMapping(value = "/updatePassword/{id}")
+  public ResponseEntity<UserDto> updatePassword(@PathVariable(name = "id") UUID id,
+      @RequestBody UpdateUserPasswordDto request,
+      Authentication authentication) {
+
+    UserDto user = mapper.toDto(this.userService.updatePassword(id, request, authentication));
     return ResponseEntity.ok().body(user);
 
   }
