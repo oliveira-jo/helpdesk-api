@@ -104,27 +104,25 @@ public class UserService {
 
   public User updatePassword(UUID id, UpdateUserPasswordDto data, Authentication authentication) {
 
-    // Test if is authenticated in system
+    // IS AUTHENTICATED
     UserEntity userAuthenticated = userRepository.findByUsername(authentication.getName()).orElse(null);
     if (userAuthenticated == null) {
-      throw new BusinessException("User not authenticated");
+      throw new BusinessException("User NOT AUTHENTICATED in the system");
     }
-
-    // test if user exists by id
+    // EXIST USER WITH THIS ID
     var entity = this.userRepository.findById(id)
-        .orElseThrow(() -> new BusinessException("User not found in the system with this id"));
+        .orElseThrow(() -> new BusinessException("User NOT FOUND in the system with this id"));
 
-    // test if user is admin or logged user
     if (userAuthenticated.getRole().equals(UserRole.ADMIN)
         || userAuthenticated.equals(entity)) {
 
-      // test if new passowrd is not empty
-      if (data.password().isEmpty()) {
+      if (data.newPassword().isEmpty()) {
         throw new BusinessException("Password cannot be empty!");
 
-        // test if old passord is correct ??
-      } else if (!new BCryptPasswordEncoder().encode(data.oldPassword()).matches(entity.getPassword())) {
-        entity.setPassword(new BCryptPasswordEncoder().encode(data.password()));
+        // MATCH NEW PASSWORD WITH CURRENT PASSWORD
+      } else if (new BCryptPasswordEncoder().matches(data.currentPassword(), entity.getPassword())) {
+
+        entity.setPassword(new BCryptPasswordEncoder().encode(data.newPassword()));
         this.userRepository.save(entity);
         return mapper.toDomain(entity);
 
