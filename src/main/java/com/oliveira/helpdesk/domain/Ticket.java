@@ -20,7 +20,7 @@ public class Ticket {
 
         private UserEntity createdBy;
         private Date createdAt;
-        private UUID updatedBy;
+        private UserEntity updatedBy;
         private Date updateAt;
 
         public UUID getId() {
@@ -95,11 +95,11 @@ public class Ticket {
                 this.createdAt = createdAt;
         }
 
-        public UUID getUpdatedBy() {
+        public UserEntity getUpdatedBy() {
                 return updatedBy;
         }
 
-        public void setUpdatedBy(UUID updatedBy) {
+        public void setUpdatedBy(UserEntity updatedBy) {
                 this.updatedBy = updatedBy;
         }
 

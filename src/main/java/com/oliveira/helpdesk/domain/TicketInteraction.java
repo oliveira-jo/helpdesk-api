@@ -1,7 +1,6 @@
 package com.oliveira.helpdesk.domain;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import com.oliveira.helpdesk.entity.TicketEntity;
@@ -11,17 +10,14 @@ import com.oliveira.helpdesk.enums.TicketStatus;
 public class TicketInteraction {
 
   private UUID id;
-  private UUID userId;
-  private UUID ticketId;
   private TicketEntity ticket;
-  private TicketStatus status;
   private UserEntity sentByUser;
+  private TicketStatus status;
   private String message;
   private UserEntity createdBy;
   private Date createdAt;
   private UUID updatedBy;
   private Date updateAt;
-  private List<Attachment> attachments;
 
   public UUID getId() {
     return id;
@@ -29,22 +25,6 @@ public class TicketInteraction {
 
   public void setId(UUID id) {
     this.id = id;
-  }
-
-  public UUID getUserId() {
-    return userId;
-  }
-
-  public void setUserId(UUID userId) {
-    this.userId = userId;
-  }
-
-  public UUID getTicketId() {
-    return ticketId;
-  }
-
-  public void setTicketId(UUID ticketId) {
-    this.ticketId = ticketId;
   }
 
   public TicketEntity getTicket() {
@@ -109,14 +89,6 @@ public class TicketInteraction {
 
   public void setUpdateAt(Date updateAt) {
     this.updateAt = updateAt;
-  }
-
-  public List<Attachment> getAttachments() {
-    return attachments;
-  }
-
-  public void setAttachments(List<Attachment> attachments) {
-    this.attachments = attachments;
   }
 
 }

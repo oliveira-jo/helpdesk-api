@@ -104,17 +104,20 @@ public class TicketService {
 
   }
 
-  public Ticket ticketInteraction(TicketInteraction domain, String username) {
+  public Ticket ticketInteraction(UUID ticketId, TicketInteraction domain, String username) {
 
     UserEntity user = userRepository.findByUsername(username).orElse(null);
     if (user == null) {
       throw new BusinessException("User not found with provided id");
     }
 
-    TicketEntity ticket = ticketRepository.findById(domain.getTicketId()).orElse(null);
+    TicketEntity ticket = ticketRepository.findById(ticketId).orElse(null);
     if (ticket == null) {
       throw new BusinessException("Ticket not found with provided id");
     }
+
+    // Do the relaction between Ticket and it's interaction (Ticket-Interaction)
+    domain.setTicket(ticket);
 
     if (!user.equals(ticket.getCreatedBy()) && user.getRole() != UserRole.ADMIN
         && user.getRole() != UserRole.SUPPORT_ATTENDANT) {
@@ -137,21 +140,8 @@ public class TicketService {
     entity.setStatus(status);
     entity = ticketInteractionRepository.save(entity);
 
-    if (domain.getAttachments() != null && !domain.getAttachments().isEmpty()) {
-      for (Attachment attachment : domain.getAttachments()) {
-        TicketAttachmentEntity ticketAttachmentEntity = new TicketAttachmentEntity();
-        ticketAttachmentEntity.setTicketInteraction(entity);
-        ticketAttachmentEntity.setCreatedBy(user);
-        ticketAttachmentEntity.setCreatedAt(new Date());
-        ticketAttachmentEntity.setFilename(attachment.getFilename());
-        ticketAttachmentEntity = ticketAttachmentRepository.save(ticketAttachmentEntity);
-        saveFileToDisk(ticketAttachmentEntity, attachment.getContent());
-
-      }
-    }
-
     ticket.setUpdateAt(now);
-    ticket.setUpdatedBy(user.getId());
+    ticket.setUpdatedBy(user);
     ticket.setStatus(status);
     ticket = ticketRepository.save(ticket);
 
@@ -278,15 +268,12 @@ public class TicketService {
 
       // Datos of modifications
       ticketEntity.setUpdateAt(new Date());
-      ticketEntity.setUpdatedBy(userLooged.getId());
+      ticketEntity.setUpdatedBy(userLooged);
 
       // Put a support attend for the first that open the call
       if (userLooged.getRole().equals(UserRole.ADMIN) || userLooged.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
         ticketEntity.setSupportUser(userLooged);
       }
-
-      // AND ARRAY OF ATTCHMENTS ?
-      // ****************************
 
       // UPDATE TICKET ENTITY
       this.ticketRepository.save(ticketEntity);

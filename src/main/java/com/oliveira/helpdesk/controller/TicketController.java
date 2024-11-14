@@ -79,10 +79,7 @@ public class TicketController {
 
     TicketInteraction domain = mapper.toDomain(request);
 
-    // domain.ticketId(ticketId);
-    domain.setTicketId(ticketId);
-
-    TicketDto updatedTicket = mapper.toDto(ticketService.ticketInteraction(domain, authentication.getName()));
+    TicketDto updatedTicket = mapper.toDto(ticketService.ticketInteraction(ticketId, domain, authentication.getName()));
 
     return ResponseEntity.ok().body(updatedTicket);
 

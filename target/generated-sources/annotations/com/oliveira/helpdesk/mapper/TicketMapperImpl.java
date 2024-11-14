@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-14T01:59:35-0300",
+    date = "2024-11-14T10:32:04-0300",
     comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.40.0.z20241023-1306, environment: Java 17.0.13 (Eclipse Adoptium)"
 )
 @Component
@@ -38,15 +38,15 @@ public class TicketMapperImpl implements TicketMapper {
 
         Ticket ticket = new Ticket();
 
-        ticket.setId( entity.getId() );
-        ticket.setSupportUser( userEntityToUser( entity.getSupportUser() ) );
-        ticket.setSubject( entity.getSubject() );
-        ticket.setDescription( entity.getDescription() );
-        ticket.setStatus( entity.getStatus() );
-        ticket.setCreatedBy( entity.getCreatedBy() );
         ticket.setCreatedAt( entity.getCreatedAt() );
-        ticket.setUpdatedBy( entity.getUpdatedBy() );
+        ticket.setCreatedBy( entity.getCreatedBy() );
+        ticket.setDescription( entity.getDescription() );
+        ticket.setId( entity.getId() );
+        ticket.setStatus( entity.getStatus() );
+        ticket.setSubject( entity.getSubject() );
+        ticket.setSupportUser( userEntityToUser( entity.getSupportUser() ) );
         ticket.setUpdateAt( entity.getUpdateAt() );
+        ticket.setUpdatedBy( entity.getUpdatedBy() );
 
         return ticket;
     }
@@ -64,7 +64,7 @@ public class TicketMapperImpl implements TicketMapper {
         TicketStatus status = null;
         UserDto createdBy = null;
         Date createdAt = null;
-        UUID updatedBy = null;
+        UserEntity updatedBy = null;
         Date updateAt = null;
 
         id = damin.getId();
@@ -90,11 +90,11 @@ public class TicketMapperImpl implements TicketMapper {
 
         TicketEntity ticketEntity = new TicketEntity();
 
-        ticketEntity.setId( domain.getId() );
-        ticketEntity.setSubject( domain.getSubject() );
-        ticketEntity.setDescription( domain.getDescription() );
-        ticketEntity.setStatus( domain.getStatus() );
         ticketEntity.setCreatedAt( domain.getCreatedAt() );
+        ticketEntity.setDescription( domain.getDescription() );
+        ticketEntity.setId( domain.getId() );
+        ticketEntity.setStatus( domain.getStatus() );
+        ticketEntity.setSubject( domain.getSubject() );
 
         return ticketEntity;
     }
@@ -108,8 +108,8 @@ public class TicketMapperImpl implements TicketMapper {
         Ticket ticket = new Ticket();
 
         ticket.setAttachments( attachmentDtoListToAttachmentList( request.attachments() ) );
-        ticket.setSubject( request.subject() );
         ticket.setDescription( request.description() );
+        ticket.setSubject( request.subject() );
 
         return ticket;
     }
@@ -123,7 +123,6 @@ public class TicketMapperImpl implements TicketMapper {
         TicketInteraction ticketInteraction = new TicketInteraction();
 
         ticketInteraction.setMessage( dto.message() );
-        ticketInteraction.setAttachments( attachmentDtoListToAttachmentList( dto.attachments() ) );
 
         return ticketInteraction;
     }
@@ -189,23 +188,23 @@ public class TicketMapperImpl implements TicketMapper {
             return null;
         }
 
-        UUID id = null;
-        String username = null;
-        String password = null;
-        String name = null;
-        String email = null;
         boolean active = false;
-        UserRole role = null;
         Date createdAt = null;
+        String email = null;
+        UUID id = null;
+        String name = null;
+        String password = null;
+        UserRole role = null;
+        String username = null;
 
-        id = userEntity.getId();
-        username = userEntity.getUsername();
-        password = userEntity.getPassword();
-        name = userEntity.getName();
-        email = userEntity.getEmail();
         active = userEntity.isActive();
-        role = userEntity.getRole();
         createdAt = userEntity.getCreatedAt();
+        email = userEntity.getEmail();
+        id = userEntity.getId();
+        name = userEntity.getName();
+        password = userEntity.getPassword();
+        role = userEntity.getRole();
+        username = userEntity.getUsername();
 
         User user = new User( id, username, password, name, email, active, role, createdAt );
 
@@ -269,11 +268,11 @@ public class TicketMapperImpl implements TicketMapper {
             return null;
         }
 
-        String filename = null;
         String content = null;
+        String filename = null;
 
-        filename = attachmentDto.filename();
         content = attachmentDto.content();
+        filename = attachmentDto.filename();
 
         Attachment attachment = new Attachment( filename, content );
 
@@ -293,35 +292,6 @@ public class TicketMapperImpl implements TicketMapper {
         return list1;
     }
 
-    protected AttachmentDto attachmentToAttachmentDto(Attachment attachment) {
-        if ( attachment == null ) {
-            return null;
-        }
-
-        String filename = null;
-        String content = null;
-
-        filename = attachment.getFilename();
-        content = attachment.getContent();
-
-        AttachmentDto attachmentDto = new AttachmentDto( filename, content );
-
-        return attachmentDto;
-    }
-
-    protected List<AttachmentDto> attachmentListToAttachmentDtoList(List<Attachment> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<AttachmentDto> list1 = new ArrayList<AttachmentDto>( list.size() );
-        for ( Attachment attachment : list ) {
-            list1.add( attachmentToAttachmentDto( attachment ) );
-        }
-
-        return list1;
-    }
-
     protected TicketInteractionDto ticketInteractionToTicketInteractionDto(TicketInteraction ticketInteraction) {
         if ( ticketInteraction == null ) {
             return null;
@@ -330,16 +300,16 @@ public class TicketMapperImpl implements TicketMapper {
         UUID id = null;
         String message = null;
         TicketStatus status = null;
-        List<AttachmentDto> attachments = null;
         UserDto sentByUser = null;
         Date createdAt = null;
 
         id = ticketInteraction.getId();
         message = ticketInteraction.getMessage();
         status = ticketInteraction.getStatus();
-        attachments = attachmentListToAttachmentDtoList( ticketInteraction.getAttachments() );
         sentByUser = userEntityToUserDto( ticketInteraction.getSentByUser() );
         createdAt = ticketInteraction.getCreatedAt();
+
+        List<AttachmentDto> attachments = null;
 
         TicketInteractionDto ticketInteractionDto = new TicketInteractionDto( id, message, status, attachments, sentByUser, createdAt );
 
@@ -353,15 +323,15 @@ public class TicketMapperImpl implements TicketMapper {
 
         TicketInteraction ticketInteraction = new TicketInteraction();
 
-        ticketInteraction.setId( ticketInteractionEntity.getId() );
-        ticketInteraction.setTicket( ticketInteractionEntity.getTicket() );
-        ticketInteraction.setStatus( ticketInteractionEntity.getStatus() );
-        ticketInteraction.setSentByUser( ticketInteractionEntity.getSentByUser() );
-        ticketInteraction.setMessage( ticketInteractionEntity.getMessage() );
-        ticketInteraction.setCreatedBy( ticketInteractionEntity.getCreatedBy() );
         ticketInteraction.setCreatedAt( ticketInteractionEntity.getCreatedAt() );
-        ticketInteraction.setUpdatedBy( ticketInteractionEntity.getUpdatedBy() );
+        ticketInteraction.setCreatedBy( ticketInteractionEntity.getCreatedBy() );
+        ticketInteraction.setId( ticketInteractionEntity.getId() );
+        ticketInteraction.setMessage( ticketInteractionEntity.getMessage() );
+        ticketInteraction.setSentByUser( ticketInteractionEntity.getSentByUser() );
+        ticketInteraction.setStatus( ticketInteractionEntity.getStatus() );
+        ticketInteraction.setTicket( ticketInteractionEntity.getTicket() );
         ticketInteraction.setUpdateAt( ticketInteractionEntity.getUpdateAt() );
+        ticketInteraction.setUpdatedBy( ticketInteractionEntity.getUpdatedBy() );
 
         return ticketInteraction;
     }

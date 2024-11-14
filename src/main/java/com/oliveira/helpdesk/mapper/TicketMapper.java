@@ -47,11 +47,9 @@ public interface TicketMapper {
   @Mapping(target = "createdAt", ignore = true)
   @Mapping(target = "createdBy", ignore = true)
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "userId", ignore = true)
   @Mapping(target = "sentByUser", ignore = true)
   @Mapping(target = "status", ignore = true)
   @Mapping(target = "ticket", ignore = true)
-  @Mapping(target = "ticketId", ignore = true)
   @Mapping(target = "updateAt", ignore = true)
   @Mapping(target = "updatedBy", ignore = true)
   TicketInteraction toDomain(CreateTicketInteractionDto dto);
@@ -62,8 +60,6 @@ public interface TicketMapper {
 
   List<TicketInteractionDto> toTicketInteractionsDto(List<TicketInteraction> domains);
 
-  @Mapping(target = "userId", ignore = true)
-  @Mapping(target = "ticketId", ignore = true)
   @Mapping(target = "attachments", ignore = true)
   List<TicketInteraction> toInteractionsDomain(List<TicketInteractionEntity> byTicket);
 }

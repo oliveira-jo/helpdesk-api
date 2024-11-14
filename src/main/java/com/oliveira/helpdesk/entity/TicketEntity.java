@@ -35,15 +35,16 @@ public class TicketEntity {
   @Enumerated(EnumType.STRING)
   private TicketStatus status;
 
+  @Column(name = "created_at")
+  private Date createdAt;
+
   @ManyToOne
   @JoinColumn(name = "created_by")
   private UserEntity createdBy;
 
-  @Column(name = "created_at")
-  private Date createdAt;
-
-  @Column(name = "updated_by")
-  private UUID updatedBy;
+  @ManyToOne
+  @JoinColumn(name = "updated_by")
+  private UserEntity updatedBy;
 
   @Column(name = "updated_at")
   private Date updateAt;
@@ -104,11 +105,11 @@ public class TicketEntity {
     this.createdAt = createdAt;
   }
 
-  public UUID getUpdatedBy() {
+  public UserEntity getUpdatedBy() {
     return updatedBy;
   }
 
-  public void setUpdatedBy(UUID updatedBy) {
+  public void setUpdatedBy(UserEntity updatedBy) {
     this.updatedBy = updatedBy;
   }
 
