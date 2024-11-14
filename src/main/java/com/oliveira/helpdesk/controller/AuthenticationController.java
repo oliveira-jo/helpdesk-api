@@ -22,10 +22,8 @@ import com.oliveira.helpdesk.security.JwtUtil;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 @OpenAPIDefinition
-@RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/auth")
 public class AuthenticationController {
@@ -35,6 +33,13 @@ public class AuthenticationController {
   private final AuthenticationManager authManager;
 
   private final UserMapper mapper;
+
+  public AuthenticationController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserMapper mapper) {
+    this.jwtUtil = jwtUtil;
+    this.authManager = authenticationManager;
+    this.mapper = mapper;
+
+  }
 
   @Operation(description = "This method do a login in the system and the return is a bearer token to be used in all endpoints.", method = "POST")
   @PostMapping(value = "/login")

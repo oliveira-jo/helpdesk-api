@@ -33,7 +33,6 @@ Secondly is to apply all knowloag I got throw the years.
 * MySQL Data Base: BD
 * Flyway: Data Base Versions
 * Mapper MapStruct: Mapping the objects, dts and domain  
-* Lombok: Genereted methos Get, Set, and others
 * Java Docks / Swagger: API Documentation
 
 

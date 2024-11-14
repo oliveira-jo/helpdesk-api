@@ -34,9 +34,6 @@ import com.oliveira.helpdesk.repository.UserRepository;
 import com.oliveira.helpdesk.security.CustomUserDetails;
 import com.oliveira.helpdesk.utils.FileUtils;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class TicketService {
 
@@ -52,6 +49,16 @@ public class TicketService {
 
   @Value("${helpdesk.attachments-folder}")
   private String attachmentFolder;
+
+  public TicketService(UserRepository userRepository, TicketRepository ticketRepository,
+      TicketInteractionRepository ticketInteractionRepository, TicketAttachmentRepository ticketAttachmentRepository,
+      TicketMapper mapper) {
+    this.userRepository = userRepository;
+    this.ticketRepository = ticketRepository;
+    this.ticketInteractionRepository = ticketInteractionRepository;
+    this.ticketAttachmentRepository = ticketAttachmentRepository;
+    this.mapper = mapper;
+  }
 
   /*
    * 

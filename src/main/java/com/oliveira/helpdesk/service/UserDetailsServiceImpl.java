@@ -10,14 +10,18 @@ import org.springframework.stereotype.Service;
 import com.oliveira.helpdesk.domain.User;
 import com.oliveira.helpdesk.security.CustomUserDetails;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   private final UserService userService;
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  private final Logger logger;
+
+  public UserDetailsServiceImpl(UserService userService) {
+    this.userService = userService;
+    this.logger = LoggerFactory.getLogger(this.getClass());
+
+  }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

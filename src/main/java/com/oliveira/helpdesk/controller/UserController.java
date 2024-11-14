@@ -3,8 +3,6 @@ package com.oliveira.helpdesk.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,10 +25,8 @@ import com.oliveira.helpdesk.service.UserService;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 @OpenAPIDefinition
-@RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -38,6 +34,12 @@ public class UserController {
   private final UserService userService;
 
   private final UserMapper mapper;
+
+  public UserController(UserService userService, UserMapper mapper) {
+    this.userService = userService;
+    this.mapper = mapper;
+
+  }
 
   @Operation(description = "[PUBLIC] This method CREATE a new user with role CUSTOMER in the system.", method = "POST")
   @PostMapping("/register")

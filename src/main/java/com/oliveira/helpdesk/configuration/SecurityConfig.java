@@ -22,11 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.oliveira.helpdesk.security.JwtTokenFilter;
 import com.oliveira.helpdesk.service.UserDetailsServiceImpl;
 
-import lombok.RequiredArgsConstructor;
-
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
   private final UserDetailsServiceImpl userDetailsService;
@@ -34,6 +31,12 @@ public class SecurityConfig {
   private final JwtTokenFilter jwtTokentFilter;
 
   private static final String[] SWAGGET_WHITELIST = { "/swagger-ui/**", "/v3/api-docs/**" };
+
+  public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, JwtTokenFilter jwtTokenFilter) {
+    this.userDetailsService = userDetailsServiceImpl;
+    this.jwtTokentFilter = jwtTokenFilter;
+
+  }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

@@ -27,10 +27,8 @@ import com.oliveira.helpdesk.service.TicketService;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
 
 @OpenAPIDefinition
-@RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/tickets")
 public class TicketController {
@@ -38,6 +36,12 @@ public class TicketController {
   private final TicketService ticketService;
 
   private final TicketMapper mapper;
+
+  public TicketController(TicketService ticketService, TicketMapper mapper) {
+    this.ticketService = ticketService;
+    this.mapper = mapper;
+
+  }
 
   @Operation(description = "This method CREATE a new support ticket in the system", method = "POST")
   @PostMapping

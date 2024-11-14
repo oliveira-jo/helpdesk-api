@@ -21,15 +21,18 @@ import com.oliveira.helpdesk.exception.BusinessException;
 import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.repository.UserRepository;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Service
 public class UserService {
 
   private final UserRepository userRepository;
 
   private final UserMapper mapper;
+
+  public UserService(UserRepository userRepository, UserMapper mapper) {
+    this.userRepository = userRepository;
+    this.mapper = mapper;
+
+  }
 
   public User createUser(User newUser) {
 
@@ -128,6 +131,7 @@ public class UserService {
 
       } else {
         throw new BusinessException("Actual password cannot match!");
+
       }
 
     } else {
