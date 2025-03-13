@@ -1,8 +1,8 @@
 server: 
-  port: 8000 
+  port: ${APPLICATION_PORT:8080} 
   servlet: 
     context-path: /api/v1
-
+    
 spring:
   application:
     name: helpdesk
@@ -12,19 +12,20 @@ spring:
     baseline-on-migrate: true
   datasource:
     driver-class-name: org.postgresql.Driver 
-    url: jdbc:postgresql://localhost:5432/helpdesk
-    username: postgres
-    password: password
+    url: ${env.DATABASE_URL}
+    username: ${env.DATABASE_USERNAME}
+    password: ${env.DATABASE_PASSWORD}
 
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: "/swagger-ui.html"
+  api-docs:
+    path: "/v3/api-docs"
+  show-actuator: true
+    
 helpdesk:
-  attachments-folder: /Users/macpro/Documents/helpdeskdoc/
-
+  attachments-folder: ${env.ATTACHMENTS_FOLDER}
 jwt:
-  secret: h9G+QWz3G7u0RK5+Q3YzN9Kz+zN5R3F5zYQw3zN6Qk5yW3L0==
-
-
-# url: ${env.DATABASE_URL}
-# username: ${env.DATABASE_USERNAME}
-# password: ${env.DATABASE_PASSWORD}
-# attachments-folder: ${env.ATTACHMENTS_FOLDER}
+  secret: ${JWT_SECRET}
 

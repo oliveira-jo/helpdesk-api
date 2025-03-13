@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-14T10:32:04-0300",
-    comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.40.0.z20241023-1306, environment: Java 17.0.13 (Eclipse Adoptium)"
+    date = "2025-03-13T18:55:54-0300",
+    comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.41.0.z20250213-2037, environment: Java 21.0.6 (Eclipse Adoptium)"
 )
 @Component
 public class TicketMapperImpl implements TicketMapper {
@@ -38,15 +38,15 @@ public class TicketMapperImpl implements TicketMapper {
 
         Ticket ticket = new Ticket();
 
-        ticket.setCreatedAt( entity.getCreatedAt() );
-        ticket.setCreatedBy( entity.getCreatedBy() );
-        ticket.setDescription( entity.getDescription() );
         ticket.setId( entity.getId() );
-        ticket.setStatus( entity.getStatus() );
-        ticket.setSubject( entity.getSubject() );
         ticket.setSupportUser( userEntityToUser( entity.getSupportUser() ) );
-        ticket.setUpdateAt( entity.getUpdateAt() );
+        ticket.setSubject( entity.getSubject() );
+        ticket.setDescription( entity.getDescription() );
+        ticket.setStatus( entity.getStatus() );
+        ticket.setCreatedBy( entity.getCreatedBy() );
+        ticket.setCreatedAt( entity.getCreatedAt() );
         ticket.setUpdatedBy( entity.getUpdatedBy() );
+        ticket.setUpdateAt( entity.getUpdateAt() );
 
         return ticket;
     }
@@ -90,11 +90,11 @@ public class TicketMapperImpl implements TicketMapper {
 
         TicketEntity ticketEntity = new TicketEntity();
 
-        ticketEntity.setCreatedAt( domain.getCreatedAt() );
-        ticketEntity.setDescription( domain.getDescription() );
         ticketEntity.setId( domain.getId() );
-        ticketEntity.setStatus( domain.getStatus() );
         ticketEntity.setSubject( domain.getSubject() );
+        ticketEntity.setDescription( domain.getDescription() );
+        ticketEntity.setStatus( domain.getStatus() );
+        ticketEntity.setCreatedAt( domain.getCreatedAt() );
 
         return ticketEntity;
     }
@@ -108,8 +108,8 @@ public class TicketMapperImpl implements TicketMapper {
         Ticket ticket = new Ticket();
 
         ticket.setAttachments( attachmentDtoListToAttachmentList( request.attachments() ) );
-        ticket.setDescription( request.description() );
         ticket.setSubject( request.subject() );
+        ticket.setDescription( request.description() );
 
         return ticket;
     }
@@ -163,10 +163,35 @@ public class TicketMapperImpl implements TicketMapper {
 
         List<TicketInteractionDto> list = new ArrayList<TicketInteractionDto>( domains.size() );
         for ( TicketInteraction ticketInteraction : domains ) {
-            list.add( ticketInteractionToTicketInteractionDto( ticketInteraction ) );
+            list.add( toTicketInteractionDto( ticketInteraction ) );
         }
 
         return list;
+    }
+
+    @Override
+    public TicketInteractionDto toTicketInteractionDto(TicketInteraction domain) {
+        if ( domain == null ) {
+            return null;
+        }
+
+        UUID id = null;
+        String message = null;
+        TicketStatus status = null;
+        UserDto sentByUser = null;
+        Date createdAt = null;
+
+        id = domain.getId();
+        message = domain.getMessage();
+        status = domain.getStatus();
+        sentByUser = userEntityToUserDto( domain.getSentByUser() );
+        createdAt = domain.getCreatedAt();
+
+        List<AttachmentDto> attachments = null;
+
+        TicketInteractionDto ticketInteractionDto = new TicketInteractionDto( id, message, status, attachments, sentByUser, createdAt );
+
+        return ticketInteractionDto;
     }
 
     @Override
@@ -188,23 +213,23 @@ public class TicketMapperImpl implements TicketMapper {
             return null;
         }
 
-        boolean active = false;
-        Date createdAt = null;
-        String email = null;
         UUID id = null;
-        String name = null;
-        String password = null;
-        UserRole role = null;
         String username = null;
+        String password = null;
+        String name = null;
+        String email = null;
+        boolean active = false;
+        UserRole role = null;
+        Date createdAt = null;
 
-        active = userEntity.isActive();
-        createdAt = userEntity.getCreatedAt();
-        email = userEntity.getEmail();
         id = userEntity.getId();
-        name = userEntity.getName();
-        password = userEntity.getPassword();
-        role = userEntity.getRole();
         username = userEntity.getUsername();
+        password = userEntity.getPassword();
+        name = userEntity.getName();
+        email = userEntity.getEmail();
+        active = userEntity.isActive();
+        role = userEntity.getRole();
+        createdAt = userEntity.getCreatedAt();
 
         User user = new User( id, username, password, name, email, active, role, createdAt );
 
@@ -268,11 +293,11 @@ public class TicketMapperImpl implements TicketMapper {
             return null;
         }
 
-        String content = null;
         String filename = null;
+        String content = null;
 
-        content = attachmentDto.content();
         filename = attachmentDto.filename();
+        content = attachmentDto.content();
 
         Attachment attachment = new Attachment( filename, content );
 
@@ -292,30 +317,6 @@ public class TicketMapperImpl implements TicketMapper {
         return list1;
     }
 
-    protected TicketInteractionDto ticketInteractionToTicketInteractionDto(TicketInteraction ticketInteraction) {
-        if ( ticketInteraction == null ) {
-            return null;
-        }
-
-        UUID id = null;
-        String message = null;
-        TicketStatus status = null;
-        UserDto sentByUser = null;
-        Date createdAt = null;
-
-        id = ticketInteraction.getId();
-        message = ticketInteraction.getMessage();
-        status = ticketInteraction.getStatus();
-        sentByUser = userEntityToUserDto( ticketInteraction.getSentByUser() );
-        createdAt = ticketInteraction.getCreatedAt();
-
-        List<AttachmentDto> attachments = null;
-
-        TicketInteractionDto ticketInteractionDto = new TicketInteractionDto( id, message, status, attachments, sentByUser, createdAt );
-
-        return ticketInteractionDto;
-    }
-
     protected TicketInteraction ticketInteractionEntityToTicketInteraction(TicketInteractionEntity ticketInteractionEntity) {
         if ( ticketInteractionEntity == null ) {
             return null;
@@ -323,15 +324,15 @@ public class TicketMapperImpl implements TicketMapper {
 
         TicketInteraction ticketInteraction = new TicketInteraction();
 
-        ticketInteraction.setCreatedAt( ticketInteractionEntity.getCreatedAt() );
-        ticketInteraction.setCreatedBy( ticketInteractionEntity.getCreatedBy() );
         ticketInteraction.setId( ticketInteractionEntity.getId() );
-        ticketInteraction.setMessage( ticketInteractionEntity.getMessage() );
-        ticketInteraction.setSentByUser( ticketInteractionEntity.getSentByUser() );
-        ticketInteraction.setStatus( ticketInteractionEntity.getStatus() );
         ticketInteraction.setTicket( ticketInteractionEntity.getTicket() );
-        ticketInteraction.setUpdateAt( ticketInteractionEntity.getUpdateAt() );
+        ticketInteraction.setStatus( ticketInteractionEntity.getStatus() );
+        ticketInteraction.setSentByUser( ticketInteractionEntity.getSentByUser() );
+        ticketInteraction.setMessage( ticketInteractionEntity.getMessage() );
+        ticketInteraction.setCreatedBy( ticketInteractionEntity.getCreatedBy() );
+        ticketInteraction.setCreatedAt( ticketInteractionEntity.getCreatedAt() );
         ticketInteraction.setUpdatedBy( ticketInteractionEntity.getUpdatedBy() );
+        ticketInteraction.setUpdateAt( ticketInteractionEntity.getUpdateAt() );
 
         return ticketInteraction;
     }

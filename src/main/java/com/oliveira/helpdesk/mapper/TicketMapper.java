@@ -58,7 +58,11 @@ public interface TicketMapper {
 
   List<TicketDto> toDto(List<Ticket> domains);
 
+  @Mapping(target = "attachments", ignore = true)
   List<TicketInteractionDto> toTicketInteractionsDto(List<TicketInteraction> domains);
+
+  @Mapping(target = "attachments", ignore = true)
+  TicketInteractionDto toTicketInteractionDto(TicketInteraction domain);
 
   @Mapping(target = "attachments", ignore = true)
   List<TicketInteraction> toInteractionsDomain(List<TicketInteractionEntity> byTicket);

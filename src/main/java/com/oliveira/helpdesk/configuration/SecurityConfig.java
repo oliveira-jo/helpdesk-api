@@ -30,7 +30,8 @@ public class SecurityConfig {
 
   private final JwtTokenFilter jwtTokentFilter;
 
-  private static final String[] SWAGGET_WHITELIST = { "/swagger-ui/**", "/v3/api-docs/**" };
+  private static final String[] SWAGGET_WHITELIST = { "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**",
+      "/actuator/**" };
 
   public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, JwtTokenFilter jwtTokenFilter) {
     this.userDetailsService = userDetailsServiceImpl;
