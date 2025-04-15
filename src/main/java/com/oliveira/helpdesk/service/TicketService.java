@@ -72,7 +72,7 @@ public class TicketService {
 
     UserEntity createdByUser = userRepository.findByUsername(username).orElse(null);
     if (createdByUser == null) {
-      throw new ObjectNotFoundException("User not found with provided id.");
+      throw new ObjectNotFoundException("User not found with provided username.");
     }
 
     TicketEntity entity = mapper.toEntity(newTicket);

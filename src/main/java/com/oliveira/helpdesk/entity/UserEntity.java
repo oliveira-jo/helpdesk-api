@@ -47,6 +47,10 @@ public class UserEntity {
   @Column(name = "updated_at")
   private Date updateAt;
 
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
   public UUID getId() {
     return id;
   }
