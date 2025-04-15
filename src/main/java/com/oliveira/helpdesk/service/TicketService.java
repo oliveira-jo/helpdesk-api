@@ -234,7 +234,8 @@ public class TicketService {
 
   }
 
-  // ** REFACTOR **
+  // ************************************** REFACTOR
+  // *************************************************************************************
   public Ticket updateTicket(UUID id, UpdateTicketDto data, Authentication authentication) {
 
     UserEntity userLooged = userRepository.findByUsername(authentication.getName()).orElse(null);

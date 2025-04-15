@@ -1,6 +1,7 @@
 package com.oliveira.helpdesk.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +22,7 @@ public class UserRepositoryTest {
 
   @Test
   @DisplayName("save persists user when successful")
-  void save_PersistUser_WhenSucessfull() {
+  void save_PersistUser_WhenSuccessful() {
 
     UserEntity userToBeSaved = UserCreator.createUserToBeSaved();
     UserEntity userSaved = this.userRepository.save(userToBeSaved);
@@ -29,15 +30,14 @@ public class UserRepositoryTest {
     Assertions.assertThat(userSaved).isNotNull();
     Assertions.assertThat(userSaved.getId()).isNotNull();
     Assertions.assertThat(userSaved.getName()).isEqualTo(userToBeSaved.getName());
-    Assertions.assertThat(userSaved.isActive()).isEqualTo(true);
+    Assertions.assertThat(userSaved.isActive()).isTrue();
     Assertions.assertThat(userSaved.getEmail()).isEqualTo(userToBeSaved.getEmail());
     Assertions.assertThat(userSaved.getPassword()).isEqualTo(userToBeSaved.getPassword());
-
   }
 
   @Test
   @DisplayName("save updates user when successful")
-  void save_UpdateUser_WhenSucessfull() {
+  void save_UpdateUser_WhenSuccessful() {
 
     UserEntity userToBeSaved = UserCreator.createUserToBeSaved();
     UserEntity userSaved = this.userRepository.save(userToBeSaved);
@@ -46,21 +46,48 @@ public class UserRepositoryTest {
     UserEntity userUpdated = this.userRepository.save(userSaved);
 
     Assertions.assertThat(userUpdated).isNotNull();
-
+    Assertions.assertThat(userUpdated.getId()).isEqualTo(userSaved.getId());
+    Assertions.assertThat(userUpdated.getName()).isEqualTo("Updated Name");
   }
 
   @Test
   @DisplayName("delete removes user when successful")
+  void delete_RemoveUser_WhenSuccessful() {
+
+    UserEntity userToBeSaved = UserCreator.createUserToBeSaved();
+    UserEntity userSaved = this.userRepository.save(userToBeSaved);
+
+    this.userRepository.delete(userSaved);
+
+    Optional<UserEntity> userOptional = this.userRepository.findById(userSaved.getId());
+
+    Assertions.assertThat(userOptional).isEmpty();
+  }
+
+  @Test
+  @DisplayName("findByUsername returns user when successful")
+  void findByUsername_ReturnsUser_WhenSuccessful() {
+
+    UserEntity userToBeSaved = UserCreator.createUserToBeSaved();
+    UserEntity userSaved = this.userRepository.save(userToBeSaved);
+
+    Optional<UserEntity> userFound = this.userRepository.findByUsername(userSaved.getUsername());
+
+    Assertions.assertThat(userFound).isPresent();
+    Assertions.assertThat(userFound.get().getUsername()).isEqualTo(userSaved.getUsername());
+  }
+
+  @Test
+  @DisplayName("findByUsername returns empty optional when username does not exist")
   void findByUsername_ReturnsEmptyOptional_WhenUsernameDoesNotExist() {
 
     Optional<UserEntity> userFound = this.userRepository.findByUsername("nonexistentUsername");
 
     Assertions.assertThat(userFound).isEmpty();
-    Assertions.assertThat(userFound).isNotPresent();
   }
 
   @Test
-  @DisplayName("findByUsername returns user when successful")
+  @DisplayName("findByRole returns user when successful")
   void findByRole_ReturnsUser_WhenSuccessful() {
 
     UserEntity userToBeSaved = UserCreator.createUserToBeSaved();
@@ -81,7 +108,27 @@ public class UserRepositoryTest {
     Optional<UserEntity> userFound = this.userRepository.findByRole(UserRole.SUPPORT_ATTENDANT);
 
     Assertions.assertThat(userFound).isEmpty();
-    Assertions.assertThat(userFound).isNotPresent();
   }
 
+  @Test
+  @DisplayName("findById returns user when successful")
+  void findById_ReturnsUser_WhenSuccessful() {
+
+    UserEntity userToBeSaved = UserCreator.createUserToBeSaved();
+    UserEntity userSaved = this.userRepository.save(userToBeSaved);
+
+    Optional<UserEntity> userFound = this.userRepository.findById(userSaved.getId());
+
+    Assertions.assertThat(userFound).isPresent();
+    Assertions.assertThat(userFound.get().getId()).isEqualTo(userSaved.getId());
+  }
+
+  @Test
+  @DisplayName("findById returns empty optional when id does not exist")
+  void findById_ReturnsEmptyOptional_WhenIdDoesNotExist() {
+
+    Optional<UserEntity> userFound = this.userRepository.findById(UUID.randomUUID());
+
+    Assertions.assertThat(userFound).isEmpty();
+  }
 }

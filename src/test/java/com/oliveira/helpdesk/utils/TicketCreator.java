@@ -1,34 +1,53 @@
 package com.oliveira.helpdesk.utils;
 
-import java.util.List;
+import java.util.Date;
 import java.util.UUID;
 
-import com.oliveira.helpdesk.domain.Attachment;
-import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.entity.TicketEntity;
+import com.oliveira.helpdesk.enums.TicketStatus;
 
 public class TicketCreator {
 
   private static final UUID TICKET_ID = UUID.randomUUID();
 
-  public static Ticket createTicket() {
+  public static TicketEntity createTicketToBeSaved() {
 
-    Ticket newTicket = new Ticket();
-    newTicket.setId(TICKET_ID);
-    newTicket.setSubject("Test Ticket");
-    newTicket.setAttachments(List.of(new Attachment("file.txt", "base64content")));
+    TicketEntity ticketToBeSaved = new TicketEntity();
+    ticketToBeSaved.setSubject("Test Ticket");
+    ticketToBeSaved.setDescription("Test Ticket Description");
 
-    return newTicket;
+    ticketToBeSaved.setCreatedAt(new Date());
+    ticketToBeSaved.setSupportUser(UserCreator.createValidUser());
+    ticketToBeSaved.setCreatedBy(UserCreator.createValidUser());
+
+    ticketToBeSaved.setStatus(TicketStatus.OPEN);
+
+    return ticketToBeSaved;
+
+  }
+
+  public static TicketEntity createValidTicket() {
+
+    TicketEntity validTicket = new TicketEntity();
+    validTicket.setId(TICKET_ID);
+    validTicket.setSubject("Test Ticket");
+    validTicket.setDescription("Test Ticket Description");
+    validTicket.setStatus(TicketStatus.OPEN);
+
+    return validTicket;
 
   }
 
-  public static TicketEntity createTicketEntity() {
+  public static TicketEntity createValidUpdateTicket() {
 
-    TicketEntity ticketEntity = new TicketEntity();
-    ticketEntity.setId(TICKET_ID);
-    ticketEntity.setSubject("Test Ticket");
+    TicketEntity ticketUpdateValid = new TicketEntity();
+    ticketUpdateValid.setId(TICKET_ID);
+    ticketUpdateValid.setSubject("Test Ticket Updated");
+    ticketUpdateValid.setDescription("Test Ticket Description Updated");
+    ticketUpdateValid.setStatus(TicketStatus.IN_PROGRESS);
 
-    return ticketEntity;
+    return ticketUpdateValid;
 
   }
+
 }
