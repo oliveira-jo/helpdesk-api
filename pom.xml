@@ -108,6 +108,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+				<!-- Datase to use in tests -->
+				<groupId>com.h2database</groupId> 
+				<artifactId>h2</artifactId> 
+				<scope>test</scope>
+			</dependency>
 	</dependencies>
 
 	<build>
