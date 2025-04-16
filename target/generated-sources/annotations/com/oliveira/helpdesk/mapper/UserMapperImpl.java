@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-15T14:44:25-0300",
+    date = "2025-04-16T15:34:50-0300",
     comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.42.0.z20250331-1358, environment: Java 21.0.6 (Eclipse Adoptium)"
 )
 @Component
@@ -26,25 +26,16 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        UUID id = null;
-        String username = null;
-        String password = null;
-        String name = null;
-        String email = null;
-        boolean active = false;
-        UserRole role = null;
-        Date createdAt = null;
+        User user = new User();
 
-        id = entity.getId();
-        username = entity.getUsername();
-        password = entity.getPassword();
-        name = entity.getName();
-        email = entity.getEmail();
-        active = entity.isActive();
-        role = entity.getRole();
-        createdAt = entity.getCreatedAt();
-
-        User user = new User( id, username, password, name, email, active, role, createdAt );
+        user.setActive( entity.isActive() );
+        user.setCreatedAt( entity.getCreatedAt() );
+        user.setEmail( entity.getEmail() );
+        user.setId( entity.getId() );
+        user.setName( entity.getName() );
+        user.setPassword( entity.getPassword() );
+        user.setRole( entity.getRole() );
+        user.setUsername( entity.getUsername() );
 
         return user;
     }
@@ -98,12 +89,12 @@ public class UserMapperImpl implements UserMapper {
 
         UserEntity userEntity = new UserEntity();
 
-        userEntity.setUsername( domain.getUsername() );
-        userEntity.setPassword( domain.getPassword() );
-        userEntity.setName( domain.getName() );
-        userEntity.setEmail( domain.getEmail() );
         userEntity.setActive( domain.isActive() );
+        userEntity.setEmail( domain.getEmail() );
+        userEntity.setName( domain.getName() );
+        userEntity.setPassword( domain.getPassword() );
         userEntity.setRole( domain.getRole() );
+        userEntity.setUsername( domain.getUsername() );
 
         return userEntity;
     }
@@ -114,22 +105,12 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        String username = null;
-        String password = null;
-        String name = null;
-        String email = null;
+        User user = new User();
 
-        username = request.username();
-        password = request.password();
-        name = request.name();
-        email = request.email();
-
-        UUID id = null;
-        Date createdAt = null;
-        boolean active = false;
-        UserRole role = null;
-
-        User user = new User( id, username, password, name, email, active, role, createdAt );
+        user.setEmail( request.email() );
+        user.setName( request.name() );
+        user.setPassword( request.password() );
+        user.setUsername( request.username() );
 
         return user;
     }

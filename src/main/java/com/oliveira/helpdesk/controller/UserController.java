@@ -111,7 +111,7 @@ public class UserController {
 
   @Operation(description = "This method DELETE a user by a provide id in the system", method = "DELETE")
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<UserDto> delete(@PathVariable("id") UUID id, Authentication authentication) {
+  public ResponseEntity<Void> delete(@PathVariable("id") UUID id, Authentication authentication) {
 
     this.userService.delete(id, authentication);
     return ResponseEntity.ok().build();

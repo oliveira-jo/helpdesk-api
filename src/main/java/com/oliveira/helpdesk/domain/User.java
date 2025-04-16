@@ -16,6 +16,9 @@ public class User {
         private UserRole role;
         private Date createdAt;
 
+        public User() {
+        }
+
         public User(UUID id, String username, String password, String name, String email, boolean active, UserRole role,
                         Date createdAt) {
                 this.id = id;
