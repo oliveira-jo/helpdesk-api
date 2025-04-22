@@ -72,7 +72,7 @@ public class TicketInteractionRepositoryTest {
     TicketInteractionEntity ticketInteractionSaved = this.ticketInteractionRepository.save(ticketInteractionToBeSaved);
 
     List<TicketInteractionEntity> ticketInteractionsFound = this.ticketInteractionRepository
-        .findByTicket(TicketCreator.createValidTicket());
+        .findByTicket(TicketCreator.createValidTicketEntity());
 
     Assertions.assertThat(ticketInteractionsFound)
         .isNotEmpty()

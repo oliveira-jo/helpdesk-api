@@ -13,9 +13,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oliveira.helpdesk.domain.Attachment;
 import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
+import com.oliveira.helpdesk.dto.AttachmentDto;
+import com.oliveira.helpdesk.dto.CreateTicketDto;
+import com.oliveira.helpdesk.dto.CreateTicketInteractionDto;
 import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.UpdateTicketDto;
 import com.oliveira.helpdesk.entity.TicketAttachmentEntity;
@@ -68,14 +70,27 @@ public class TicketService {
    * 
    */
   @Transactional
-  public Ticket createTicket(Ticket newTicket, String username) {
+  public Ticket createTicket(CreateTicketDto newTicket, String username) {
 
     UserEntity createdByUser = userRepository.findByUsername(username).orElse(null);
     if (createdByUser == null) {
       throw new ObjectNotFoundException("User not found with provided username.");
     }
 
-    TicketEntity entity = mapper.toEntity(newTicket);
+    if (newTicket.subject() == null) {
+      throw new BusinessException("Ticket Subject con't be null!");
+
+    }
+
+    if (newTicket.description() == null) {
+      throw new BusinessException("Ticket Description con't be null!");
+
+    }
+
+    TicketEntity entity = new TicketEntity();
+    entity.setSubject(newTicket.subject());
+    entity.setDescription(newTicket.description());
+
     entity.setCreatedBy(createdByUser);
     entity.setStatus(TicketStatus.OPEN);
     entity.setCreatedAt(new Date());
@@ -86,17 +101,17 @@ public class TicketService {
      * File and in the DataBase only the name e informations
      * exists attachments in the tikect
      */
-    if (newTicket.getAttachments() != null && !newTicket.getAttachments().isEmpty()) {
-      for (Attachment attachment : newTicket.getAttachments()) {
+    if (newTicket.attachments() != null && !newTicket.attachments().isEmpty()) {
+      for (AttachmentDto attachment : newTicket.attachments()) {
         // Saving attachments name in the Data Base - Base64
         TicketAttachmentEntity ticketAttachmentEntity = new TicketAttachmentEntity();
         ticketAttachmentEntity.setTicket(entity);
         ticketAttachmentEntity.setCreatedBy(createdByUser);
         ticketAttachmentEntity.setCreatedAt(new Date());
-        ticketAttachmentEntity.setFilename(attachment.getFilename());
+        ticketAttachmentEntity.setFilename(attachment.filename());
         ticketAttachmentEntity = ticketAttachmentRepository.save(ticketAttachmentEntity);
         // Convert to byte arrey to save in local disk
-        saveFileToDisk(ticketAttachmentEntity, attachment.getContent());
+        saveFileToDisk(ticketAttachmentEntity, attachment.content());
       }
     }
 
@@ -104,7 +119,7 @@ public class TicketService {
 
   }
 
-  public Ticket ticketInteraction(UUID ticketId, TicketInteraction domain, String username) {
+  public Ticket ticketInteraction(UUID ticketId, CreateTicketInteractionDto request, String username) {
 
     UserEntity user = userRepository.findByUsername(username).orElse(null);
     if (user == null) {
@@ -116,13 +131,14 @@ public class TicketService {
       throw new BusinessException("Ticket not found with provided id");
     }
 
-    // Do the relaction between Ticket and it's interaction (Ticket-Interaction)
-    domain.setTicket(ticket);
-
     if (!user.equals(ticket.getCreatedBy()) && user.getRole() != UserRole.ADMIN
         && user.getRole() != UserRole.SUPPORT_ATTENDANT) {
       throw new BusinessException("UNAUNTHORIZED access to this  ticket");
     }
+
+    // Do the relaction between Ticket and it's interaction (Ticket-Interaction)
+    TicketInteraction domain = mapper.toDomain(request);
+    domain.setTicket(ticket);
 
     Date now = new Date();
     TicketStatus status = TicketStatus.IN_PROGRESS;

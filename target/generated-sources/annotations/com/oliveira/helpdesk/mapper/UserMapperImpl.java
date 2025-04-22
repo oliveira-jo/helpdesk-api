@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-16T15:34:50-0300",
+    date = "2025-04-22T17:54:28-0300",
     comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.42.0.z20250331-1358, environment: Java 21.0.6 (Eclipse Adoptium)"
 )
 @Component
@@ -28,14 +28,14 @@ public class UserMapperImpl implements UserMapper {
 
         User user = new User();
 
-        user.setActive( entity.isActive() );
-        user.setCreatedAt( entity.getCreatedAt() );
-        user.setEmail( entity.getEmail() );
         user.setId( entity.getId() );
-        user.setName( entity.getName() );
-        user.setPassword( entity.getPassword() );
-        user.setRole( entity.getRole() );
         user.setUsername( entity.getUsername() );
+        user.setPassword( entity.getPassword() );
+        user.setName( entity.getName() );
+        user.setEmail( entity.getEmail() );
+        user.setActive( entity.isActive() );
+        user.setRole( entity.getRole() );
+        user.setCreatedAt( entity.getCreatedAt() );
 
         return user;
     }
@@ -89,12 +89,12 @@ public class UserMapperImpl implements UserMapper {
 
         UserEntity userEntity = new UserEntity();
 
-        userEntity.setActive( domain.isActive() );
-        userEntity.setEmail( domain.getEmail() );
-        userEntity.setName( domain.getName() );
-        userEntity.setPassword( domain.getPassword() );
-        userEntity.setRole( domain.getRole() );
         userEntity.setUsername( domain.getUsername() );
+        userEntity.setPassword( domain.getPassword() );
+        userEntity.setName( domain.getName() );
+        userEntity.setEmail( domain.getEmail() );
+        userEntity.setActive( domain.isActive() );
+        userEntity.setRole( domain.getRole() );
 
         return userEntity;
     }
@@ -107,10 +107,10 @@ public class UserMapperImpl implements UserMapper {
 
         User user = new User();
 
-        user.setEmail( request.email() );
-        user.setName( request.name() );
-        user.setPassword( request.password() );
         user.setUsername( request.username() );
+        user.setPassword( request.password() );
+        user.setName( request.name() );
+        user.setEmail( request.email() );
 
         return user;
     }

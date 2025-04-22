@@ -14,7 +14,7 @@ public class TicketInteractionCreator {
 
     TicketInteractionEntity ticketInteractionToBeSaved = new TicketInteractionEntity();
 
-    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicket());
+    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicketEntity());
     ticketInteractionToBeSaved.setSentByUser(UserCreator.createValidUser());
 
     ticketInteractionToBeSaved.setMessage("Ticket Interaction Message");
@@ -30,7 +30,7 @@ public class TicketInteractionCreator {
 
     TicketInteractionEntity ticketInteractionToBeSaved = new TicketInteractionEntity();
 
-    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicket());
+    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicketEntity());
     ticketInteractionToBeSaved.setSentByUser(UserCreator.createValidUser());
 
     ticketInteractionToBeSaved.setMessage("Ticket Interaction Message");
@@ -46,7 +46,7 @@ public class TicketInteractionCreator {
 
     TicketInteraction ticketInteractionToBeSaved = new TicketInteraction();
 
-    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicket());
+    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicketEntity());
 
     ticketInteractionToBeSaved.setMessage("Ticket Interaction Message Updated");
     ticketInteractionToBeSaved.setCreatedAt(new Date());

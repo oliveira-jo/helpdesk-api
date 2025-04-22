@@ -25,7 +25,7 @@ public class TicketRepositoryTest {
   @Test
   @DisplayName("save persists ticket when successful")
   void save_PersistTicket_WhenSuccessful() {
-    TicketEntity ticketToBeSaved = TicketCreator.createTicketToBeSaved();
+    TicketEntity ticketToBeSaved = TicketCreator.createTicketEntityToBeSaved();
     TicketEntity ticketSaved = this.ticketRepository.save(ticketToBeSaved);
 
     Assertions.assertThat(ticketSaved)
@@ -37,7 +37,7 @@ public class TicketRepositoryTest {
   @Test
   @DisplayName("save updates ticket when successful")
   void save_UpdateTicket_WhenSuccessful() {
-    TicketEntity ticketToBeSaved = TicketCreator.createTicketToBeSaved();
+    TicketEntity ticketToBeSaved = TicketCreator.createTicketEntityToBeSaved();
     TicketEntity ticketSaved = this.ticketRepository.save(ticketToBeSaved);
 
     ticketSaved.setSubject(TicketCreator.createValidUpdateTicket().getSubject());
@@ -54,7 +54,7 @@ public class TicketRepositoryTest {
   @Test
   @DisplayName("delete removes ticket when successful")
   void delete_RemovesTicket_WhenSuccessful() {
-    TicketEntity ticketToBeSaved = TicketCreator.createTicketToBeSaved();
+    TicketEntity ticketToBeSaved = TicketCreator.createTicketEntityToBeSaved();
     TicketEntity ticketSaved = this.ticketRepository.save(ticketToBeSaved);
 
     this.ticketRepository.delete(ticketSaved);
@@ -67,7 +67,7 @@ public class TicketRepositoryTest {
   @DisplayName("findAll returns all tickets when successful")
   @Transactional
   void findAll_ReturnsAllTickets_WhenSuccessful() {
-    TicketEntity ticket1 = TicketCreator.createTicketToBeSaved();
+    TicketEntity ticket1 = TicketCreator.createTicketEntityToBeSaved();
     this.ticketRepository.save(ticket1);
 
     List<TicketEntity> tickets = this.ticketRepository.findAll();
@@ -91,7 +91,7 @@ public class TicketRepositoryTest {
   @Test
   @DisplayName("findById returns ticket when successful")
   void findById_ReturnsTicket_WhenSuccessful() {
-    TicketEntity ticketToBeSaved = TicketCreator.createTicketToBeSaved();
+    TicketEntity ticketToBeSaved = TicketCreator.createTicketEntityToBeSaved();
     TicketEntity ticketSaved = this.ticketRepository.save(ticketToBeSaved);
 
     Optional<TicketEntity> ticketFound = this.ticketRepository.findById(ticketSaved.getId());
@@ -113,7 +113,7 @@ public class TicketRepositoryTest {
   @Test
   @DisplayName("update ticket status when successful")
   void update_TicketStatus_WhenSuccessful() {
-    TicketEntity ticketToBeSaved = TicketCreator.createTicketToBeSaved();
+    TicketEntity ticketToBeSaved = TicketCreator.createTicketEntityToBeSaved();
     TicketEntity ticketSaved = this.ticketRepository.save(ticketToBeSaved);
 
     ticketSaved.setStatus(TicketStatus.RESOLVED);

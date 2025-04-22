@@ -19,6 +19,16 @@ public class TicketInteraction {
   private UUID updatedBy;
   private Date updateAt;
 
+  public TicketInteraction() {
+  }
+
+  public TicketInteraction(UUID id, TicketEntity ticket, UserEntity sentByUser, String message) {
+    this.id = id;
+    this.ticket = ticket;
+    this.sentByUser = sentByUser;
+    this.message = message;
+  }
+
   public UUID getId() {
     return id;
   }
