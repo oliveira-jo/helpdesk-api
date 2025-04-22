@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oliveira.helpdesk.domain.Ticket;
-import com.oliveira.helpdesk.domain.TicketInteraction;
 import com.oliveira.helpdesk.dto.CreateTicketDto;
 import com.oliveira.helpdesk.dto.CreateTicketInteractionDto;
 import com.oliveira.helpdesk.dto.StatusResponseDto;
@@ -45,11 +43,11 @@ public class TicketController {
 
   @Operation(description = "This method CREATE a new support ticket in the system", method = "POST")
   @PostMapping
-  public ResponseEntity<TicketDto> create(@RequestBody CreateTicketDto request, Authentication authentication) {
+  public ResponseEntity<TicketDto> createTicket(@RequestBody CreateTicketDto request, Authentication authentication) {
 
-    Ticket domain = mapper.toDomain(request);
-    TicketDto createTicket = mapper.toDto(ticketService.createTicket(domain, authentication.getName()));
-    return ResponseEntity.ok().body(createTicket);
+    return ResponseEntity.ok().body(
+        mapper.toDto(
+            ticketService.createTicket(request, authentication.getName())));
 
   }
 
@@ -58,14 +56,15 @@ public class TicketController {
   public ResponseEntity<TicketDto> update(@PathVariable(name = "id") UUID id, @RequestBody UpdateTicketDto request,
       Authentication authentication) {
 
-    TicketDto ticketDto = mapper.toDto(this.ticketService.updateTicket(id, request, authentication));
-    return ResponseEntity.ok().body(ticketDto);
+    return ResponseEntity.ok().body(
+        mapper.toDto(
+            this.ticketService.updateTicket(id, request, authentication)));
 
   }
 
   @Operation(description = "This method DELETE a support ticket in the system", method = "DELETE")
   @DeleteMapping(value = "/{id}")
-  public ResponseEntity<TicketDto> deleteTichet(@PathVariable(name = "id") UUID id, Authentication authentication) {
+  public ResponseEntity<Void> deleteTichet(@PathVariable(name = "id") UUID id, Authentication authentication) {
 
     this.ticketService.delete(id, authentication);
     return ResponseEntity.ok().build();
@@ -77,11 +76,9 @@ public class TicketController {
   public ResponseEntity<TicketDto> createTicketInteraction(@PathVariable(name = "id") UUID ticketId,
       @RequestBody CreateTicketInteractionDto request, Authentication authentication) {
 
-    TicketInteraction domain = mapper.toDomain(request);
-
-    TicketDto updatedTicket = mapper.toDto(ticketService.ticketInteraction(ticketId, domain, authentication.getName()));
-
-    return ResponseEntity.ok().body(updatedTicket);
+    return ResponseEntity.ok().body(
+        mapper.toDto(
+            ticketService.ticketInteraction(ticketId, request, authentication.getName())));
 
   }
 
@@ -89,8 +86,8 @@ public class TicketController {
   @GetMapping
   public ResponseEntity<List<TicketDto>> listAllTickets(Authentication authentication) {
 
-    List<TicketDto> tickets = mapper.toDto(ticketService.listAll(authentication));
-    return ResponseEntity.ok().body(tickets);
+    return ResponseEntity.ok().body(
+        mapper.toDto(ticketService.listAll(authentication)));
 
   }
 
@@ -98,8 +95,8 @@ public class TicketController {
   @GetMapping(value = "/numberOfStatus")
   public ResponseEntity<StatusResponseDto> numberOfStatus(Authentication authentication) {
 
-    StatusResponseDto status = this.ticketService.numberOfStatus(authentication);
-    return ResponseEntity.ok().body(status);
+    return ResponseEntity.ok().body(
+        this.ticketService.numberOfStatus(authentication));
 
   }
 
@@ -108,9 +105,8 @@ public class TicketController {
   public ResponseEntity<TicketDto> getById(@PathVariable(name = "id") UUID ticketId,
       Authentication authentication) {
 
-    TicketDto ticket = mapper.toDto(ticketService.getById(ticketId, authentication));
-
-    return ResponseEntity.ok().body(ticket);
+    return ResponseEntity.ok().body(
+        mapper.toDto(ticketService.getById(ticketId, authentication)));
 
   }
 
@@ -119,10 +115,9 @@ public class TicketController {
   public ResponseEntity<List<TicketInteractionDto>> getInteractionsByTicketId(@PathVariable(name = "id") UUID ticketId,
       Authentication authentication) {
 
-    List<TicketInteractionDto> titcketInteractions = mapper
-        .toTicketInteractionsDto(ticketService.getInteractionsByTicketId(ticketId, authentication));
-
-    return ResponseEntity.ok().body(titcketInteractions);
+    return ResponseEntity.ok().body(
+        mapper.toTicketInteractionsDto(
+            ticketService.getInteractionsByTicketId(ticketId, authentication)));
 
   }
 
