@@ -24,7 +24,6 @@ import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.service.UserService;
 import com.oliveira.helpdesk.utils.UserCreator;
-
 import com.oliveira.helpdesk.domain.User;
 
 @DisplayName("User Controller Test")
@@ -35,39 +34,39 @@ public class UserControllerTest {
   private UserController userController;
 
   @Mock
-  private UserService userService;
+  private UserService userServiceMock;
 
   @Mock
-  private UserMapper userMapper;
+  private UserMapper userMapperMock;
 
   @BeforeEach
   void setUp() {
     // CREATE
-    BDDMockito.when(userService.createUser(ArgumentMatchers.any(User.class)))
+    BDDMockito.when(userServiceMock.createUser(ArgumentMatchers.any(User.class)))
         .thenReturn(UserCreator.createUserDomainToBeSaved());
-    BDDMockito.when(userMapper.toDomain(ArgumentMatchers.any(CreateUserDto.class)))
+    BDDMockito.when(userMapperMock.toDomain(ArgumentMatchers.any(CreateUserDto.class)))
         .thenReturn(UserCreator.createUserDomainToBeSaved());
-    BDDMockito.when(userMapper.toDto(ArgumentMatchers.any(User.class)))
+    BDDMockito.when(userMapperMock.toDto(ArgumentMatchers.any(User.class)))
         .thenReturn(UserCreator.createUserResponseDto());
     // UPDATE
     BDDMockito
-        .when(userService.update(ArgumentMatchers.any(UUID.class), ArgumentMatchers.any(UpdateUserDto.class),
+        .when(userServiceMock.update(ArgumentMatchers.any(UUID.class), ArgumentMatchers.any(UpdateUserDto.class),
             ArgumentMatchers.any(Authentication.class)))
         .thenReturn(UserCreator.createValidUpdateUser());
     // FIND_BY_ID
-    BDDMockito.when(userService.findById(ArgumentMatchers.any(UUID.class)))
+    BDDMockito.when(userServiceMock.findById(ArgumentMatchers.any(UUID.class)))
         .thenReturn(UserCreator.createValidUserDomain());
     // FIND_ALL_USERS
-    BDDMockito.when(userService.findAllUsers(ArgumentMatchers.any(Authentication.class)))
+    BDDMockito.when(userServiceMock.findAllUsers(ArgumentMatchers.any(Authentication.class)))
         .thenReturn(List.of(UserCreator.createUserResponseDto()));
     // FIND_BY_USERNAME
-    BDDMockito.when(userService.findByUsername(ArgumentMatchers.any(String.class)))
+    BDDMockito.when(userServiceMock.findByUsername(ArgumentMatchers.any(String.class)))
         .thenReturn(UserCreator.createValidUserDomain());
     // DELETE
-    BDDMockito.willDoNothing().given(userService)
+    BDDMockito.willDoNothing().given(userServiceMock)
         .delete(ArgumentMatchers.any(UUID.class), ArgumentMatchers.any(Authentication.class));
     // USERS NUMBER
-    BDDMockito.when(this.userService.numberOfUsers(ArgumentMatchers.any(Authentication.class)))
+    BDDMockito.when(this.userServiceMock.numberOfUsers(ArgumentMatchers.any(Authentication.class)))
         .thenReturn(new NumberUsersDto(1, 1, 1));
 
   }
@@ -93,7 +92,7 @@ public class UserControllerTest {
 
     Authentication authentication = BDDMockito.mock(Authentication.class);
 
-    BDDMockito.when(this.userMapper.toDto(ArgumentMatchers.any(User.class)))
+    BDDMockito.when(this.userMapperMock.toDto(ArgumentMatchers.any(User.class)))
         .thenReturn(UserCreator.createUpdateUserDto());
 
     UserDto response = this.userController.update(

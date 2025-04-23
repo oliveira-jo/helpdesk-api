@@ -36,45 +36,42 @@ public class TicketControllerTest {
         private TicketController ticketController;
 
         @Mock
-        private TicketService ticketService;
+        private TicketService ticketServiceMock;
 
         @Mock
-        private TicketMapper ticketMapper;
+        private TicketMapper ticketMapperMock;
 
         @Mock
-        private Authentication authentication;
+        private Authentication authenticationMock;
 
         @BeforeEach
         void setUp() {
 
-                // CREATE
-                BDDMockito.when(this.ticketService.createTicket(
+                BDDMockito.when(this.ticketServiceMock.createTicket(
                                 ArgumentMatchers.any(),
                                 ArgumentMatchers.any()))
                                 .thenReturn(TicketCreator.createValidTicket());
-                // UPDATE
-                BDDMockito.when(ticketService.updateTicket(ArgumentMatchers.any(UUID.class),
+
+                BDDMockito.when(ticketServiceMock.updateTicket(ArgumentMatchers.any(UUID.class),
                                 ArgumentMatchers.any(UpdateTicketDto.class),
                                 ArgumentMatchers.any(Authentication.class)))
                                 .thenReturn(TicketCreator.createValidUpdateTicket());
-                // GET_BY_ID
-                BDDMockito.when(ticketService.getById(
+
+                BDDMockito.when(ticketServiceMock.getById(
                                 ArgumentMatchers.any(UUID.class),
                                 ArgumentMatchers.any(Authentication.class)))
                                 .thenReturn(TicketCreator.createValidTicket());
 
-                // FIND_ALL_USERS
-                BDDMockito.when(ticketService.listAll(ArgumentMatchers.any(Authentication.class)))
+                BDDMockito.when(ticketServiceMock.listAll(ArgumentMatchers.any(Authentication.class)))
                                 .thenReturn(List.of(TicketCreator.createValidTicket()));
 
-                BDDMockito.when(ticketMapper.toDto(ArgumentMatchers.<List<Ticket>>any()))
+                BDDMockito.when(ticketMapperMock.toDto(ArgumentMatchers.<List<Ticket>>any()))
                                 .thenReturn(List.of(TicketCreator.createTicketResponseDto()));
-                // DELETE
-                BDDMockito.willDoNothing().given(ticketService).delete(ArgumentMatchers.any(UUID.class),
+
+                BDDMockito.willDoNothing().given(ticketServiceMock).delete(ArgumentMatchers.any(UUID.class),
                                 ArgumentMatchers.any(Authentication.class));
 
-                // AUX
-                BDDMockito.when(this.ticketMapper.toDto(ArgumentMatchers.any(Ticket.class)))
+                BDDMockito.when(this.ticketMapperMock.toDto(ArgumentMatchers.any(Ticket.class)))
                                 .thenReturn(TicketCreator.createTicketResponseDto());
 
         }
@@ -84,7 +81,7 @@ public class TicketControllerTest {
         void createTicket_ReturnsTicketDTO_WhenSuccessfull() {
 
                 TicketDto response = this.ticketController
-                                .createTicket(TicketCreator.createTicketRequestDto(), authentication).getBody();
+                                .createTicket(TicketCreator.createTicketRequestDto(), authenticationMock).getBody();
 
                 Assertions.assertThat(response).isNotNull();
                 Assertions.assertThat(response.id()).isEqualTo(TicketCreator.createValidTicket().getId());
@@ -101,11 +98,11 @@ public class TicketControllerTest {
         @DisplayName("update ticket and returns TicketDTO WhenSuccessfull")
         void update_ReturnsTicketDTO_WhenSuccessfull() {
 
-                BDDMockito.when(this.ticketMapper.toDto(ArgumentMatchers.any(Ticket.class)))
+                BDDMockito.when(this.ticketMapperMock.toDto(ArgumentMatchers.any(Ticket.class)))
                                 .thenReturn(TicketCreator.createUpdateTicketDtoUpdated());
 
                 TicketDto response = this.ticketController.update(TicketCreator.createValidUpdateTicket().getId(),
-                                TicketCreator.createUpdateTicketDto(), authentication).getBody();
+                                TicketCreator.createUpdateTicketDto(), authenticationMock).getBody();
 
                 Assertions.assertThat(response).isNotNull();
                 Assertions.assertThat(response.id()).isEqualTo(TicketCreator.createValidUpdateTicket().getId());
@@ -126,7 +123,7 @@ public class TicketControllerTest {
                 UUID expectedId = TicketCreator.createValidTicketEntity().getId();
 
                 ResponseEntity<TicketDto> response = this.ticketController
-                                .getById(TicketCreator.createValidTicketEntity().getId(), authentication);
+                                .getById(TicketCreator.createValidTicketEntity().getId(), authenticationMock);
 
                 Assertions.assertThat(response.getBody()).isNotNull();
                 Assertions.assertThat(response.getBody().id()).isEqualTo(expectedId);
@@ -139,7 +136,7 @@ public class TicketControllerTest {
 
                 UUID expectedId = TicketCreator.createValidTicketEntity().getId();
 
-                ResponseEntity<List<TicketDto>> response = this.ticketController.listAllTickets(authentication);
+                ResponseEntity<List<TicketDto>> response = this.ticketController.listAllTickets(authenticationMock);
 
                 Assertions.assertThat(response.getBody()).isNotNull().isNotEmpty().hasSize(1);
                 Assertions.assertThat(response.getBody().get(0).id()).isEqualTo(expectedId);
@@ -168,10 +165,10 @@ public class TicketControllerTest {
         @DisplayName("numberOfStatus returns StatusResponseDTO When Successful")
         void numberOfStatus_returnsStatusResponseDto_whenSuccessfull() {
 
-                BDDMockito.when(ticketService.numberOfStatus(ArgumentMatchers.any(Authentication.class)))
+                BDDMockito.when(ticketServiceMock.numberOfStatus(ArgumentMatchers.any(Authentication.class)))
                                 .thenReturn(TicketCreator.createStatusResponseDto());
 
-                StatusResponseDto response = this.ticketController.numberOfStatus(authentication).getBody();
+                StatusResponseDto response = this.ticketController.numberOfStatus(authenticationMock).getBody();
 
                 Assertions.assertThat(response).isNotNull();
                 Assertions.assertThat(response.nOpenTickets()).isEqualTo(1);
@@ -186,16 +183,17 @@ public class TicketControllerTest {
         @DisplayName("getInteractionsByTicketId returns List of TicketInteractionDTO When Successful")
         void getInteractionsByTicketId_ReturnsListOfTicketInteractionDto_WhenSuccessfull() {
 
-                BDDMockito.when(ticketService.getInteractionsByTicketId(
+                BDDMockito.when(ticketServiceMock.getInteractionsByTicketId(
                                 ArgumentMatchers.any(UUID.class),
                                 ArgumentMatchers.any(Authentication.class)))
                                 .thenReturn(TicketCreator.createListTicketInteractions());
 
-                BDDMockito.when(ticketMapper.toTicketInteractionsDto(ArgumentMatchers.<List<TicketInteraction>>any()))
+                BDDMockito.when(ticketMapperMock
+                                .toTicketInteractionsDto(ArgumentMatchers.<List<TicketInteraction>>any()))
                                 .thenReturn(TicketCreator.createListTicketInteractionsDto());
 
                 List<TicketInteractionDto> response = this.ticketController.getInteractionsByTicketId(
-                                TicketCreator.createValidTicketEntity().getId(), authentication).getBody();
+                                TicketCreator.createValidTicketEntity().getId(), authenticationMock).getBody();
 
                 Assertions.assertThat(response).isNotNull().isNotEmpty();
                 Assertions.assertThat(response.get(0).message())

@@ -74,16 +74,16 @@ public class UserService {
 
   public User update(UUID id, UpdateUserDto data, Authentication authentication) {
 
-    UserEntity userAuthenticated = userRepository.findByUsername(authentication.getName()).orElse(null);
-    if (userAuthenticated == null) {
-      throw new BusinessException("User not authenticated");
+    Optional<UserEntity> userAuthenticated = userRepository.findByUsername(authentication.getName());
+    if (!userAuthenticated.isPresent()) {
+      throw new BusinessException("User not authenticated in the system with provide name");
     }
 
     // UPDATE entity
     var entity = this.userRepository.findById(id)
         .orElseThrow(() -> new BusinessException("User not found in the system with this id"));
 
-    if (userAuthenticated.getRole().equals(UserRole.ADMIN)
+    if (userAuthenticated.get().getRole().equals(UserRole.ADMIN)
         || userAuthenticated.equals(entity)) {
 
       if (!data.name().isEmpty())
@@ -141,29 +141,35 @@ public class UserService {
   }
 
   public User findByUsername(String username) {
-    UserEntity entity = userRepository.findByUsername(username).orElse(null);
-    if (entity == null) {
+
+    Optional<UserEntity> entity = userRepository.findByUsername(username);
+    if (!entity.isPresent()) {
       throw new AuthorizationException("User not found in the system with this name");
     }
-    return mapper.toDomain(entity);
+
+    return mapper.toDomain(entity.get());
+
   }
 
   public User findById(UUID id) {
-    UserEntity entity = userRepository.findById(id).orElse(null);
-    if (entity == null) {
+
+    Optional<UserEntity> entity = userRepository.findById(id);
+    if (!entity.isPresent()) {
       throw new AuthorizationException("User not found in the system with this id");
     }
-    return mapper.toDomain(entity);
+
+    return mapper.toDomain(entity.get());
+
   }
 
   public List<UserDto> findAllUsers(Authentication authentication) {
 
-    UserEntity userAuthenticated = userRepository.findByUsername(authentication.getName()).orElse(null);
-    if (userAuthenticated == null) {
+    Optional<UserEntity> userAuthenticated = userRepository.findByUsername(authentication.getName());
+    if (!userAuthenticated.isPresent()) {
       throw new BusinessException("User not authenticated *************************************");
     }
 
-    if (userAuthenticated.getRole().equals(UserRole.ADMIN)) {
+    if (userAuthenticated.get().getRole().equals(UserRole.ADMIN)) {
       return mapper.toDto(this.userRepository.findAll());
 
     } else {
@@ -174,31 +180,31 @@ public class UserService {
 
   public void delete(UUID id, Authentication authentication) {
 
-    UserEntity userAuthenticated = userRepository.findByUsername(authentication.getName()).orElse(null);
-    if (userAuthenticated == null) {
+    Optional<UserEntity> userAuthenticated = userRepository.findByUsername(authentication.getName());
+    if (!userAuthenticated.isPresent()) {
       throw new BusinessException("User not authenticated");
     }
 
-    UserEntity deleteUser = userRepository.findById(id).orElse(null);
-    if (deleteUser == null) {
+    Optional<UserEntity> deleteUser = userRepository.findById(id);
+    if (!deleteUser.isPresent()) {
       throw new BusinessException("User not found for provide id");
     }
 
-    if (deleteUser.getRole().equals(UserRole.ADMIN)) {
+    if (deleteUser.get().getRole().equals(UserRole.ADMIN)) {
       throw new BusinessException("Unauthorized to delete ADMIN");
     }
 
-    if (deleteUser.getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
+    if (deleteUser.get().getRole().equals(UserRole.SUPPORT_ATTENDANT)) {
       throw new BusinessException("Unauthorized to delete SUPPORT_ATTENDANT");
     }
 
-    if (userAuthenticated.getRole().equals(UserRole.ADMIN)
+    if (userAuthenticated.get().getRole().equals(UserRole.ADMIN)
         || userAuthenticated.equals(deleteUser)) {
 
-      this.userRepository.delete(deleteUser);
+      this.userRepository.delete(deleteUser.get());
 
     } else {
-      throw new BusinessException("Unauthorized to delete user: " + deleteUser.getUsername());
+      throw new BusinessException("Unauthorized to delete user: " + deleteUser.get().getUsername());
 
     }
 
@@ -206,8 +212,8 @@ public class UserService {
 
   public NumberUsersDto numberOfUsers(Authentication authentication) {
 
-    UserEntity user = userRepository.findByUsername(authentication.getName()).orElse(null);
-    if (user == null) {
+    Optional<UserEntity> user = userRepository.findByUsername(authentication.getName());
+    if (!user.isPresent()) {
       throw new BusinessException("User not found or not authenticated");
     }
 
@@ -215,7 +221,8 @@ public class UserService {
     var userAttendent = 0;
     var defaultUser = 0;
 
-    if (user.getRole().equals(UserRole.ADMIN)) {
+    if (user.get().getRole().equals(UserRole.ADMIN)) {
+
       var newUsers = this.findAllUsers(authentication);
 
       for (UserDto data : newUsers) {
@@ -226,7 +233,9 @@ public class UserService {
         if (data.role().equals(UserRole.CUSTOMER))
           defaultUser++;
       }
+
     }
     return new NumberUsersDto(userAdmin, userAttendent, defaultUser);
   }
+
 }

@@ -10,6 +10,7 @@ import com.oliveira.helpdesk.dto.CreateUserDto;
 import com.oliveira.helpdesk.dto.UpdateUserDto;
 import com.oliveira.helpdesk.dto.UserDto;
 import com.oliveira.helpdesk.entity.UserEntity;
+import com.oliveira.helpdesk.enums.UserRole;
 
 public class UserCreator {
 
@@ -77,7 +78,7 @@ public class UserCreator {
         USER_NAME,
         USER_EMAIL,
         true,
-        null,
+        UserRole.ADMIN,
         USER_CREATION_DATE);
 
   }
@@ -87,6 +88,7 @@ public class UserCreator {
     userEntity.setId(USER_ID);
     userEntity.setUsername(USER_USERNAME);
     userEntity.setName(USER_NAME);
+    userEntity.setRole(UserRole.ADMIN);
     userEntity.setActive(true);
     userEntity.setEmail(USER_EMAIL);
     userEntity.setPassword(USER_PASSWORD);
@@ -99,6 +101,19 @@ public class UserCreator {
     userEntity.setId(USER_ID);
     userEntity.setUsername("testUsername_updated");
     userEntity.setName("testName_Updated");
+    userEntity.setActive(true);
+    userEntity.setEmail(USER_EMAIL);
+    userEntity.setPassword(USER_PASSWORD);
+    return userEntity;
+
+  }
+
+  public static UserEntity createUpdateUser() {
+    UserEntity userEntity = new UserEntity();
+    userEntity.setId(USER_ID);
+    userEntity.setUsername("testUsername_updated");
+    userEntity.setName("testName_Updated");
+    userEntity.setRole(UserRole.ADMIN);
     userEntity.setActive(true);
     userEntity.setEmail(USER_EMAIL);
     userEntity.setPassword(USER_PASSWORD);
