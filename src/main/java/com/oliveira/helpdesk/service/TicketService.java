@@ -131,14 +131,14 @@ public class TicketService {
       throw new BusinessException("Ticket not found with provided id");
     }
 
+    // Do the relaction between Ticket and it's interaction (Ticket-Interaction)
+    TicketInteraction domain = mapper.toDomain(request);
+    domain.setTicket(ticket);
+
     if (!user.equals(ticket.getCreatedBy()) && user.getRole() != UserRole.ADMIN
         && user.getRole() != UserRole.SUPPORT_ATTENDANT) {
       throw new BusinessException("UNAUNTHORIZED access to this  ticket");
     }
-
-    // Do the relaction between Ticket and it's interaction (Ticket-Interaction)
-    TicketInteraction domain = mapper.toDomain(request);
-    domain.setTicket(ticket);
 
     Date now = new Date();
     TicketStatus status = TicketStatus.IN_PROGRESS;

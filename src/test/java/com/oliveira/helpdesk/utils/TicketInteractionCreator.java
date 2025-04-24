@@ -42,6 +42,22 @@ public class TicketInteractionCreator {
 
   }
 
+  public static TicketInteraction createValidTicketInteraction() {
+
+    TicketInteraction ticketInteractionToBeSaved = new TicketInteraction();
+
+    ticketInteractionToBeSaved.setTicket(TicketCreator.createValidTicketEntity());
+    ticketInteractionToBeSaved.setSentByUser(UserCreator.createValidUser());
+
+    ticketInteractionToBeSaved.setMessage("Ticket Interaction Message");
+    ticketInteractionToBeSaved.setCreatedAt(new Date());
+    ticketInteractionToBeSaved.setCreatedBy(UserCreator.createValidUser());
+    ticketInteractionToBeSaved.setStatus(TicketStatus.OPEN);
+
+    return ticketInteractionToBeSaved;
+
+  }
+
   public static TicketInteraction createValidUpdateTicket() {
 
     TicketInteraction ticketInteractionToBeSaved = new TicketInteraction();

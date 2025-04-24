@@ -84,7 +84,7 @@ public class UserService {
         .orElseThrow(() -> new BusinessException("User not found in the system with this id"));
 
     if (userAuthenticated.get().getRole().equals(UserRole.ADMIN)
-        || userAuthenticated.equals(entity)) {
+        || userAuthenticated.get().equals(entity)) {
 
       if (!data.name().isEmpty())
         entity.setName(data.name());

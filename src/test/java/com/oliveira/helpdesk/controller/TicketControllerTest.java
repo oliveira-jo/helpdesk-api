@@ -28,7 +28,7 @@ import com.oliveira.helpdesk.mapper.TicketMapper;
 import com.oliveira.helpdesk.service.TicketService;
 import com.oliveira.helpdesk.utils.TicketCreator;
 
-@DisplayName("User Controller Test")
+@DisplayName("Ticket Controller Test")
 @ExtendWith(SpringExtension.class)
 public class TicketControllerTest {
 
@@ -95,7 +95,7 @@ public class TicketControllerTest {
         }
 
         @Test
-        @DisplayName("update ticket and returns TicketDTO WhenSuccessfull")
+        @DisplayName(" update ticket and returns TicketDTO WhenSuccessfull")
         void update_ReturnsTicketDTO_WhenSuccessfull() {
 
                 BDDMockito.when(this.ticketMapperMock.toDto(ArgumentMatchers.any(Ticket.class)))

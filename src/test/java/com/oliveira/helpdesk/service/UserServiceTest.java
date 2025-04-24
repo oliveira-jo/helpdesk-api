@@ -140,7 +140,7 @@ public class UserServiceTest {
   @DisplayName("findAllUsers returns a list of UsersDto WhenSuccessfull foradmin")
   void findAllUsers_ReturnsListOfUserDto_WhenSuccessfull() {
 
-    BDDMockito.when(this.userMapperMock.toDto(ArgumentMatchers.any(List.class)))
+    BDDMockito.when(this.userMapperMock.toDto(ArgumentMatchers.<List<UserEntity>>any()))
         .thenReturn(List.of(UserCreator.createUserResponseDto()));
 
     List<UserDto> response = userService.findAllUsers(authenticationMock);

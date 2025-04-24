@@ -1,7 +1,5 @@
 package com.oliveira.helpdesk.utils;
 
-import static org.mockito.ArgumentMatchers.refEq;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +7,7 @@ import java.util.UUID;
 import com.oliveira.helpdesk.domain.Ticket;
 import com.oliveira.helpdesk.domain.TicketInteraction;
 import com.oliveira.helpdesk.dto.CreateTicketDto;
+import com.oliveira.helpdesk.dto.CreateTicketInteractionDto;
 import com.oliveira.helpdesk.dto.StatusResponseDto;
 import com.oliveira.helpdesk.dto.TicketDto;
 import com.oliveira.helpdesk.dto.TicketInteractionDto;
@@ -95,6 +94,18 @@ public class TicketCreator {
 
   }
 
+  public static TicketEntity createValidUpdateTicketEntity() {
+    TicketEntity ticket = new TicketEntity();
+    ticket.setId(TICKET_ID);
+    ticket.setSubject("test-ticket-update");
+    ticket.setDescription("test-description-update");
+    ticket.setCreatedAt(TICKET_DATA);
+    ticket.setCreatedBy(TICKET_CREATED_BY);
+    ticket.setStatus(TICKET_STATUS);
+    return ticket;
+
+  }
+
   public static UpdateTicketDto createUpdateTicketDto() {
     return new UpdateTicketDto("test-ticket-update", "test-description-update", TICKET_STATUS, null);
 
@@ -125,5 +136,22 @@ public class TicketCreator {
     return List.of(
         new TicketInteractionDto(TICKET_INTERACTION_ID, "message-1", TICKET_STATUS, null,
             UserCreator.createUserResponseDto(), TICKET_DATA));
+  }
+
+  public static TicketInteraction createValidTicketInteraction() {
+    TicketInteraction ticketInteraction = new TicketInteraction();
+    ticketInteraction.setId(TICKET_INTERACTION_ID);
+    ticketInteraction.setTicket(createValidTicketEntity());
+    ticketInteraction.setSentByUser(UserCreator.createValidUser());
+    ticketInteraction.setMessage("message-1");
+    ticketInteraction.setCreatedAt(TICKET_DATA);
+    ticketInteraction.setCreatedBy(UserCreator.createValidUser());
+    return ticketInteraction;
+  }
+
+  public static CreateTicketInteractionDto createTicketInteractionDto() {
+
+    return new CreateTicketInteractionDto("message-1-dto", null);
+
   }
 }
