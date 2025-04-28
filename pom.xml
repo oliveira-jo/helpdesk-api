@@ -109,11 +109,29 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-				<!-- Datase to use in tests -->
-				<groupId>com.h2database</groupId> 
-				<artifactId>h2</artifactId> 
+			<groupId>com.h2database</groupId> 
+			<artifactId>h2</artifactId> 
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+				<!-- for generate a token in test -->
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-test</artifactId>
 				<scope>test</scope>
-			</dependency>
+		</dependency>
+
+		<!-- <dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.5.6</version>
+		</dependency> -->
+		<!-- <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.1.0-alpha1</version>
+			<scope>test</scope>
+		</dependency> -->
+
 	</dependencies>
 
 	<build>

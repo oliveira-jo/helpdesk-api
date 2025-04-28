@@ -53,12 +53,11 @@ public class AuthenticationController {
       CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
       AuthResponseDto tokenResponse = jwtUtil.generateToken(userDetails.getId(), userDetails.getUsername());
 
-      // System.out.println("================================");
-      // System.out.println(authentication.getAuthorities());
-
       return ResponseEntity.ok().body(tokenResponse);
+
     } catch (BadCredentialsException e) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
     }
   }
 

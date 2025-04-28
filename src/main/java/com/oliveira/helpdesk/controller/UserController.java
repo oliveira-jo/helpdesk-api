@@ -101,8 +101,8 @@ public class UserController {
   }
 
   @Operation(description = "This method FIND a user in the system passsing a username with parameter", method = "GET")
-  @GetMapping(value = "GetUserByUsername")
-  public ResponseEntity<UserDto> findByUsername(@RequestBody String username) {
+  @GetMapping(value = "/GetUserByUsername/{username}")
+  public ResponseEntity<UserDto> findByUsername(@PathVariable(name = "username") String username) {
 
     UserDto user = mapper.toDto(userService.findByUsername(username));
     return ResponseEntity.ok().body(user);
