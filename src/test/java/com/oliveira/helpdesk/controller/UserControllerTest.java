@@ -26,7 +26,7 @@ import com.oliveira.helpdesk.service.UserService;
 import com.oliveira.helpdesk.utils.UserCreator;
 import com.oliveira.helpdesk.domain.User;
 
-@DisplayName("User Controller Test")
+@DisplayName("Unit Test for User Controller")
 @ExtendWith(SpringExtension.class)
 public class UserControllerTest {
 

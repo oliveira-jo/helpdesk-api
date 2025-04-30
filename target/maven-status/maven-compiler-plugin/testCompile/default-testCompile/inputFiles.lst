@@ -1,0 +1,13 @@
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/HelpdeskApplicationTests.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/controller/TicketControllerTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/controller/UserControllerTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/integration/TicketControllerIT.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/integration/UserControllerIT.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/repository/TicketInteractionRepositoryTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/repository/TicketRepositoryTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/repository/UserRepositoryTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/service/TicketServiceTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/service/UserServiceTest.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/utils/TicketCreator.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/utils/TicketInteractionCreator.java
+/Users/macpro/Documents/PROJECTS-TI/BACKEND/helpdesk/src/test/java/com/oliveira/helpdesk/utils/UserCreator.java

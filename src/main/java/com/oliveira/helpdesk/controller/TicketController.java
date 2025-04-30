@@ -43,7 +43,7 @@ public class TicketController {
 
   @Operation(description = "This method CREATE a new support ticket in the system", method = "POST")
   @PostMapping
-  public ResponseEntity<TicketDto> createTicket(@RequestBody CreateTicketDto request, Authentication authentication) {
+  public ResponseEntity<TicketDto> create(@RequestBody CreateTicketDto request, Authentication authentication) {
 
     return ResponseEntity.ok().body(
         mapper.toDto(
@@ -82,7 +82,7 @@ public class TicketController {
 
   }
 
-  @Operation(description = "This method LIST alll tickets", method = "GET")
+  @Operation(description = "This method list all tickets and return a list of TicketsDto", method = "GET")
   @GetMapping
   public ResponseEntity<List<TicketDto>> listAllTickets(Authentication authentication) {
 

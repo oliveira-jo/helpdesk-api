@@ -25,7 +25,7 @@ import com.oliveira.helpdesk.mapper.UserMapper;
 import com.oliveira.helpdesk.repository.UserRepository;
 import com.oliveira.helpdesk.utils.UserCreator;
 
-@DisplayName("User Service Test")
+@DisplayName("Unit test for User Service")
 @ExtendWith(SpringExtension.class)
 public class UserServiceTest {
 

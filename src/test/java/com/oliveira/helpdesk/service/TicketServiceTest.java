@@ -30,7 +30,7 @@ import com.oliveira.helpdesk.utils.TicketCreator;
 import com.oliveira.helpdesk.utils.TicketInteractionCreator;
 import com.oliveira.helpdesk.utils.UserCreator;
 
-@DisplayName("Ticket Service Test")
+@DisplayName("Unit test for Ticket Service")
 @ExtendWith(SpringExtension.class)
 public class TicketServiceTest {
 

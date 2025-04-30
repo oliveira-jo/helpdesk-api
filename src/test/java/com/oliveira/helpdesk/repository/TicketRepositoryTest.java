@@ -17,6 +17,7 @@ import com.oliveira.helpdesk.utils.TicketCreator;
 import jakarta.transaction.Transactional;
 
 @DataJpaTest
+@DisplayName("Unit Test for Ticket Repository")
 public class TicketRepositoryTest {
 
   @Autowired

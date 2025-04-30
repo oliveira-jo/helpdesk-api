@@ -27,7 +27,7 @@ import com.oliveira.helpdesk.enums.UserRole;
 import com.oliveira.helpdesk.repository.UserRepository;
 import com.oliveira.helpdesk.utils.UserCreator;
 
-@DisplayName("Integration tests for UserController")
+@DisplayName("Integration tests for User Controller")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -51,7 +51,7 @@ public class UserControllerIT {
   }
 
   @Test
-  @DisplayName("Mthis Method create a user and Return a UserDto WhenSuccessful")
+  @DisplayName("This method create a user and return a UserDto WhenSuccessful")
   void create_ReturnUserDto_WhenSuccessful() {
     String url = getBaseUrl() + "/register";
 
@@ -67,7 +67,7 @@ public class UserControllerIT {
   }
 
   @Test
-  @DisplayName("This Method create a support user and Return a UserDto WhenSuccessful")
+  @DisplayName("This method create a support user and return a UserDto WhenSuccessful")
   void createSupportUser_ReturnUserDto_WhenSuccessful() {
 
     String url = getBaseUrl() + "/registerSupportAttendent";
@@ -86,7 +86,7 @@ public class UserControllerIT {
   }
 
   @Test
-  @DisplayName("This Method update a user and Return a UserDto WhenSuccessful")
+  @DisplayName("This method update a user and Return a UserDto WhenSuccessful")
   void update_ReturnUserDto_WhenSuccessful() {
 
     String url = getBaseUrl() + "/{id}";
@@ -108,7 +108,7 @@ public class UserControllerIT {
   }
 
   @Test
-  @DisplayName("This Method find a user by a provide id and Return a UserDto WhenSuccessful")
+  @DisplayName("This method find a user by a provide id and Return a UserDto WhenSuccessful")
   void findById_ReturnUserDto_WhenSuccessful() {
 
     // CREATE AND SAVE IN DATABASE
@@ -130,7 +130,7 @@ public class UserControllerIT {
   }
 
   @Test
-  @DisplayName("This Method find a user by a provide username and Return a UserDto WhenSuccessful")
+  @DisplayName("This method find a user by a provide username and Return a UserDto WhenSuccessful")
   void findByUsername_ReturnUserDto_WhenSuccessful() {
 
     // CREATE AND SAVE IN DATABASE
@@ -153,7 +153,7 @@ public class UserControllerIT {
   }
 
   @Test
-  @DisplayName("This Method delete a user by a provide id and Return Void WhenSuccessful")
+  @DisplayName("This method delete a user by a provide id and return void WhenSuccessful")
   void delete_ReturnUserDto_WhenSuccessful() {
 
     String url = getBaseUrl() + "/{id}";

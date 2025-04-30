@@ -13,6 +13,7 @@ import com.oliveira.helpdesk.dto.TicketDto;
 import com.oliveira.helpdesk.dto.TicketInteractionDto;
 import com.oliveira.helpdesk.dto.UpdateTicketDto;
 import com.oliveira.helpdesk.entity.TicketEntity;
+import com.oliveira.helpdesk.entity.TicketInteractionEntity;
 import com.oliveira.helpdesk.entity.UserEntity;
 import com.oliveira.helpdesk.enums.TicketStatus;
 
@@ -40,9 +41,9 @@ public class TicketCreator {
     TicketEntity ticket = new TicketEntity();
     ticket.setSubject(TICKET_SUBJECT);
     ticket.setDescription(TICKET_DESCRIPTION);
+    ticket.setStatus(TICKET_STATUS);
     ticket.setCreatedAt(TICKET_DATA);
     ticket.setCreatedBy(TICKET_CREATED_BY);
-
     return ticket;
 
   }
@@ -55,7 +56,6 @@ public class TicketCreator {
     ticket.setCreatedAt(TICKET_DATA);
     ticket.setCreatedBy(TICKET_CREATED_BY);
     ticket.setStatus(TICKET_STATUS);
-
     return ticket;
 
   }
@@ -118,13 +118,11 @@ public class TicketCreator {
   }
 
   public static StatusResponseDto createStatusResponseDto() {
-
     return new StatusResponseDto(1, 1, 1, 1, 1);
 
   }
 
   public static List<TicketInteraction> createListTicketInteractions() {
-
     return List.of(
         new TicketInteraction(TICKET_INTERACTION_ID, createValidTicketEntity(), UserCreator.createValidUser(),
             "message-1"));
@@ -132,7 +130,6 @@ public class TicketCreator {
   }
 
   public static List<TicketInteractionDto> createListTicketInteractionsDto() {
-
     return List.of(
         new TicketInteractionDto(TICKET_INTERACTION_ID, "message-1", TICKET_STATUS, null,
             UserCreator.createUserResponseDto(), TICKET_DATA));
@@ -147,11 +144,24 @@ public class TicketCreator {
     ticketInteraction.setCreatedAt(TICKET_DATA);
     ticketInteraction.setCreatedBy(UserCreator.createValidUser());
     return ticketInteraction;
+
   }
 
   public static CreateTicketInteractionDto createTicketInteractionDto() {
-
     return new CreateTicketInteractionDto("message-1-dto", null);
 
   }
+
+  public static TicketInteractionEntity createValidTicketInteractionEntity() {
+    TicketInteractionEntity ticketInteraction = new TicketInteractionEntity();
+    ticketInteraction.setTicket(createValidTicketEntity());
+    ticketInteraction.setSentByUser(UserCreator.createValidUser());
+    ticketInteraction.setMessage("message-1");
+    ticketInteraction.setStatus(TICKET_STATUS);
+    ticketInteraction.setCreatedAt(TICKET_DATA);
+    ticketInteraction.setCreatedBy(UserCreator.createValidUser());
+    return ticketInteraction;
+
+  }
+
 }

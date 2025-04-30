@@ -28,7 +28,7 @@ import com.oliveira.helpdesk.mapper.TicketMapper;
 import com.oliveira.helpdesk.service.TicketService;
 import com.oliveira.helpdesk.utils.TicketCreator;
 
-@DisplayName("Ticket Controller Test")
+@DisplayName("Unit Test for Ticket Controller")
 @ExtendWith(SpringExtension.class)
 public class TicketControllerTest {
 
@@ -81,7 +81,7 @@ public class TicketControllerTest {
         void createTicket_ReturnsTicketDTO_WhenSuccessfull() {
 
                 TicketDto response = this.ticketController
-                                .createTicket(TicketCreator.createTicketRequestDto(), authenticationMock).getBody();
+                                .create(TicketCreator.createTicketRequestDto(), authenticationMock).getBody();
 
                 Assertions.assertThat(response).isNotNull();
                 Assertions.assertThat(response.id()).isEqualTo(TicketCreator.createValidTicket().getId());

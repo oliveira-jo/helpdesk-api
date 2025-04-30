@@ -14,7 +14,7 @@ import com.oliveira.helpdesk.enums.UserRole;
 import com.oliveira.helpdesk.utils.UserCreator;
 
 @DataJpaTest
-@DisplayName("User Repository Test")
+@DisplayName("Unit test for User Repository")
 public class UserRepositoryTest {
 
   @Autowired
