@@ -52,6 +52,8 @@ Secondly is to apply all knowloag I got throw the years.
 + ✅ Get all tickets by role, Admin and attendant see all and customer see their tickets
 + ✅ Get tickets by id with role, Admin and attendant AND customer 
 + ✅ CRUD tickets and tickets interactions
++ ✅ Create Unit tests
++ ✅ Create Integration tests
 
 
 ## Configuring the Database
