@@ -12,9 +12,9 @@ spring:
     baseline-on-migrate: true
   datasource:
     driver-class-name: org.postgresql.Driver 
-    url: ${env.DATABASE_URL}
-    username: ${env.DATABASE_USERNAME}
-    password: ${env.DATABASE_PASSWORD}
+    url: ${env.DATABASE_URL:jdbc:postgresql://localhost:5432/helpdesk}
+    username: ${env.DATABASE_USERNAME:postgres}
+    password: ${env.DATABASE_PASSWORD:password}
 
 springdoc:
   swagger-ui:
@@ -25,8 +25,7 @@ springdoc:
   show-actuator: true
     
 helpdesk:
-  attachments-folder: ${env.ATTACHMENTS_FOLDER}
-  
+  attachments-folder: ${env.ATTACHMENTS_FOLDER:/tmp/helpdesk-attachments}
 jwt:
   secret: ${env.JWT_SECRET:my-secret-key}
 
