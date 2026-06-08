@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,19 +43,20 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        // .sessionManagement(session ->
-        // session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authenticationProvider(authenticationProvider())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
             .requestMatchers(SWAGGET_WHITELIST).permitAll()
             .requestMatchers("/auth/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/users/registerSupportAttendent").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated())
-        .formLogin(withDefaults -> withDefaults.disable())
-        .logout(withDefaults -> withDefaults.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(withDefaults -> withDefaults.disable());
-
+        .csrf(csrf -> csrf.disable())
+        .formLogin(login -> login.disable())
+        .logout(logout -> logout.disable());
     http.addFilterBefore(jwtTokentFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
 
@@ -90,7 +92,10 @@ public class SecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.applyPermitDefaultValues();
+    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
+    configuration.setAllowedHeaders(List.of("*"));
+    configuration.setAllowCredentials(true);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return source;

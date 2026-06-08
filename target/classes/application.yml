@@ -27,5 +27,5 @@ springdoc:
 helpdesk:
   attachments-folder: ${env.ATTACHMENTS_FOLDER:/tmp/helpdesk-attachments}
 jwt:
-  secret: ${env.JWT_SECRET:my-secret-key}
+  secret: ${env.JWT_SECRET:mysupersecretkeywithatleast32characters123}
 

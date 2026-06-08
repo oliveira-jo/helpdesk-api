@@ -1,0 +1,15 @@
+com/oliveira/helpdesk/integration/TicketControllerIT$2.class
+com/oliveira/helpdesk/integration/UserControllerIT.class
+com/oliveira/helpdesk/repository/TicketRepositoryTest.class
+com/oliveira/helpdesk/repository/UserRepositoryTest.class
+com/oliveira/helpdesk/repository/TicketInteractionRepositoryTest.class
+com/oliveira/helpdesk/integration/TicketControllerIT$1.class
+com/oliveira/helpdesk/HelpdeskApplicationTests.class
+com/oliveira/helpdesk/utils/UserCreator.class
+com/oliveira/helpdesk/service/TicketServiceTest.class
+com/oliveira/helpdesk/utils/TicketInteractionCreator.class
+com/oliveira/helpdesk/utils/TicketCreator.class
+com/oliveira/helpdesk/controller/UserControllerTest.class
+com/oliveira/helpdesk/service/UserServiceTest.class
+com/oliveira/helpdesk/integration/TicketControllerIT.class
+com/oliveira/helpdesk/controller/TicketControllerTest.class

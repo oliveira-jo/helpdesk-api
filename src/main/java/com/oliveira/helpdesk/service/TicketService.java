@@ -321,7 +321,8 @@ public class TicketService {
       // Delete all interactions by ticket id
       if (ticket.getStatus().equals(TicketStatus.RESOLVED) || ticket.getStatus().equals(TicketStatus.CANCELLED)) {
 
-        System.out.println("************ Entrou no if RESOLVIDO OU CANCELADO para excluir ************");
+        // System.out.println("************ Entrou no if RESOLVIDO OU CANCELADO para
+        // excluir ************");
         this.ticketInteractionRepository.deleteByTicket(ticket);
 
       }

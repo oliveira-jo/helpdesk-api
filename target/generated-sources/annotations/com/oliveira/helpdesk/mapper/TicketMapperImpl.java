@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-08T09:59:58-0300",
-    comments = "version: 1.6.0.Beta1, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-06-08T12:31:45-0300",
+    comments = "version: 1.6.0.Beta1, compiler: javac, environment: Java 21.0.8 (Oracle Corporation)"
 )
 @Component
 public class TicketMapperImpl implements TicketMapper {
