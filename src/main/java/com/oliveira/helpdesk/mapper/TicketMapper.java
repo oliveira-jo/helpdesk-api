@@ -26,11 +26,11 @@ public interface TicketMapper {
   @Mapping(target = "attachments", ignore = true)
   Ticket toDomain(TicketEntity entity);
 
-  TicketDto toDto(Ticket damin);
+  TicketDto toDto(Ticket domain);
 
   @Mapping(target = "supportUser", ignore = true)
   @Mapping(target = "createdBy", ignore = true)
-  @Mapping(target = "updateAt", ignore = true)
+  // @Mapping(target = "updatedAt", ignore = true)
   @Mapping(target = "updatedBy", ignore = true)
   TicketEntity toEntity(Ticket domain);
 

@@ -1,4 +1,4 @@
-# HELPDESK PROJECT
+# Helpdesk Backend
 
 > Status: Finished V.1
 
@@ -10,96 +10,107 @@
 ![Postman](https://img.shields.io/badge/Postman-FF6C37.svg?style=for-the-badge&logo=Postman&logoColor=white)
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white) 
 
-## Objective
-The main objective of this project is the development an API to provide a system of HelpDesk. 
-Secondly is to apply all knowloag I got throw the years.   
 
+A RESTful Help Desk API built with Java and Spring Boot for managing support tickets, users, and customer service operations, and a RESTful API for integration with frontends or other services.
 
-## Project Base in MVC
-+ CONTROLLERS (DTO's)
-+ SERVICES (DTO's)
-+ REPOSITORIES (Entities)
-+ MODELS (Entities)
+## 🚀 Technologies
+- Java 21
+- Spring Boot
+- Spring Security
+- JWT Authentication
+- Maven
+- Hibernate / JPA
+- PostgreSQL
+- Swagger OpenAPI
 
+## 📋 Features
+- User authentication and authorization with JWT
+- Create, update, and manage support tickets
+- Ticket status tracking
+- Role-based access control
+- Request validation
+- Global exception handling
+- RESTful architecture with JSON responses
+- Swagger/OpenAPI documentation
 
-## Technologies Used
-* Java
-* Spring Boot Starter Web: Servidor Tomcat
-* Spring Boot Devtools: Hot Heload 
-* Spring Boot Starter Data JPA: Persistence
-* Spring Boot Starter Security  
-* Banner Spring Geneerate
-* MySQL Driver
-* MySQL Data Base: BD
-* Flyway: Data Base Versions
-* Mapper MapStruct: Mapping the objects, dts and domain  
-* Java Docks / Swagger: API Documentation
+## 🏗️ Architecture
+- Layered architecture: routes → controllers → services → repositories
+- Relational database for persistent storage
+- Stateless REST API suitable for horizontal scaling
+- Optional background jobs for notifications
 
+## 🔧 Instalação
+1. Clone the repository:
+   git clone https://github.com/oliveira-jo/helpdesk-api
+2. Install dependencies:
+   cd helpdesk
+   yarn install
+3. Configure environment variables:
+   - Copy .env.example to .env and set DB credentials, JWT secret, and ports.
 
-## Features Under Development
-+ ✅ Create Controller 
-+ ✅ Create Repositories
-+ ✅ Create Services
-+ ✅ Create Entities
-+ ✅ Create Data Base and Drive Conection
-+ ✅ Mapping objects: entities / dtos / domain
-+ ✅ Create Busines Ruless in Services
-+ ✅ Create a Handle Exceptions Controller 
-+ ✅ Create a API Documentation Swagger
-+ ✅ Configure the spring security 
-+ ✅ Create a JWT Token and password crypt in BD
-+ ✅ Create User ROLES
-+ ✅ Get all tickets by role, Admin and attendant see all and customer see their tickets
-+ ✅ Get tickets by id with role, Admin and attendant AND customer 
-+ ✅ CRUD tickets and tickets interactions
-+ ✅ Create Unit tests
-+ ✅ Create Integration tests
+## ▶️ Como executar
+- Development:
+  yarn dev
+- Build and run:
+  npm run build
+  npm start
 
+## 📡 Endpoints da API
+Note: replace :id with resource ids and set Authorization header with a valid Bearer token.
 
-## Configuring the Database
-### In the file Application.properties
+- POST /api/auth/login — Authenticate and receive JWT
+- POST /api/users — Create a user (admin)
+- GET /api/users/:id — Get user details
+- POST /api/tickets — Create a ticket
+- GET /api/tickets — List tickets (supports ?page=&limit=&status=&assignedTo=)
+- GET /api/tickets/:id — Get ticket details
+- PATCH /api/tickets/:id — Update ticket (status, assignee, comments)
+- POST /api/tickets/:id/comments — Add a comment
+- GET /api/reports/summary — Basic reporting (admin)
 
-```
-spring.datasource.url=jdbc:mysql://localhost:3306/helpdesk
-spring.datasource.username=YOUR-USER
-spring.datasource.password=YOUR-PASSWORD
-spring.jpa.hibernate.ddl-auto=update 
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
-```
+Include request/response examples in API docs or use an OpenAPI/Swagger spec file for full references.
 
-## Flyway for table versions in DB
-### The version contain sql is in
+## 🔐 Segurança
+- Use HTTPS in production.
+- Authenticate API with JWT tokens and enforce token expiry.
+- Apply role-based access control for sensitive endpoints.
+- Validate and sanitize input to prevent injection.
+- Store secrets (JWT secret, DB password) in environment variables or a secrets manager.
 
-+ ✅ resourses/db/migration/versions.sql
+## 🧪 Testes
+- Unit tests with Jest.
+- Integration tests with Supertest hitting the API routes.
+- Run tests:
+  npm test
+  or
+  yarn test
 
+## 📁 Project Structure
+Overview of the typical repository structure:
+````
+src
+ ┣ main
+ ┃ ┣ java
+ ┃ ┃ ┗ com.oliveira.helpdesk
+ ┃ ┃    ┣ configuration
+ ┃ ┃    ┣ controller
+ ┃ ┃    ┣ dto
+ ┃ ┃    ┣ domain
+ ┃ ┃    ┣ enums
+ ┃ ┃    ┣ exception
+ ┃ ┃    ┣ mapper
+ ┃ ┃    ┣ repository
+ ┃ ┃    ┣ security
+ ┃ ┃    ┣ service
+ ┃ ┃    ┗ utils
+ ┃ ┗ resources
+ ┃    ┣ db
+ ┃      ┣ migration
+ ┃    ┣ application.yml
 
-## Configurations Spring Security and COR's
-### The configurations is in
+````
 
-+ ✅ src/main/java/com/oliveira/helpdesk/configuration/SecurityConfig.java
-
-
-## Configuration Admin and Attendent in BD
-### Create and configurate expecials users
-
-+ ✅ Every time when the system run, Create if not exist this users in BD
-+ ✅ src/main/java/com/oliveira/helpdesk/configuration/UserConfig.java
-
-
-## API Endpoints
-### Using Swagger ui for map the api andpoins 
-
-+ ✅ The endpoints can be accessed in browser by 
-
-```
-http://localhost:8000/api/v1/swagger-ui/index.html#/
-```
-
-
-
-
-
-
-
-
+## 👨‍💻 Author
+- Name: Jonathan Oliveira
+- Contact: devjoliveira@gmail.com
 
