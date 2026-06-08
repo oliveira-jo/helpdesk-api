@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "helpdesk.attachments-folder",
+      "type": "java.lang.String",
+      "description": "A description for 'helpdesk.attachments-folder'"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "A description for 'jwt.secret'"
+    }
+  ]
+}
